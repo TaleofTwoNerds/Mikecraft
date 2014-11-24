@@ -1,3 +1,8 @@
+/*
+Code: © Blaine Harper
+Textures: © Mojang AB
+*/
+
 package mikecraft;
 
 import static org.lwjgl.opengl.GL11.*;
