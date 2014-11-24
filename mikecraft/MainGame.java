@@ -21,10 +21,6 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 public class MainGame {
 	
-	/*
-	Possible plot twist. Steve is actually a robot.
-	*/
-	
 	public static int Height = 480;
 	public static int Width = 640;
 	public static final int BlockSize = Width / 10;
