@@ -1,4 +1,4 @@
-package mikecraft;
+package worlds;
 
 import static mikecraft.MainGame.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -8,6 +8,9 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.opengl.Texture;
 
 import entity.AbstractMoveableEntity;
+import mikecraft.Gravity;
+import mikecraft.MainGame;
+import mikecraft.Player;
 import mikecraft.MainGame.State;
 
 public class WorldOneTwo extends Gravity{

@@ -1,6 +1,7 @@
-package mikecraft;
+package worlds;
 
 import static org.lwjgl.opengl.GL11.*;
+import mikecraft.MainGame;
 
 import org.newdawn.slick.opengl.Texture;
 

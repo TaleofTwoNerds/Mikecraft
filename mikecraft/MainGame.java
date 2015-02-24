@@ -1,8 +1,3 @@
-/*
-Code: © Blaine Harper
-Textures: © Mojang AB
-*/
-
 package mikecraft;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -19,47 +14,36 @@ import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import worlds.World;
+
 public class MainGame {
 	
-	public static int Height = 480;
-	public static int Width = 640;
+	/*
+	Possible plot twist. Steve is actually a robot.
+	*/
+	
+	public static int Height = 480,Width = 640,Char = 2;
 	public static final int BlockSize = Width / 10;
 	public static Player player;
 	public static Enemy enemy;
-	public static int Char = 1;
 	public static boolean display = false;
 	public static double level = 1.1;
 	
-    static Texture grass;
-    static Texture sky;
-    static Texture dirt;
-    static Texture title;
-    static Texture playerSkin;
-    static Texture brick;
-    static Texture planks_oak;
-    static Texture tnt;
-    static Texture gold;
-    static Texture redstone;
-    static Texture wheat7;
-    static Texture flag;
-    static Texture emerald;
-    static Texture steveChar;
-    static Texture mikeChar;
-    static Texture mineChar;
-    static Texture titleBack;
-    static Texture startButton;
-    static Texture quitButton;
-    static Texture worldStage;
+    public static Texture sky,dirt,brick,planks_oak,tnt
+    		,gold,redstone,wheat7,flag,emerald,grass;
+    public static Texture steveChar,mikeChar,mineChar,playerSkin;
+    public static Texture title,titleBack,startButton,quitButton,worldStage;
     
     public static enum State {
         MAIN_MENU, GAME, STAGE_SWAP
     }
-    static State state = State.MAIN_MENU;
+    public static State state = State.MAIN_MENU;
     
 	@SuppressWarnings("static-access")
 	public static void setUpDisplay(){
     	try {
             Display.setDisplayMode(new DisplayMode(Width, Height));
+//            Display.setFullscreen(true);
     		int disX;
     		int disXDec;
     		int disY;
@@ -101,19 +85,19 @@ public class MainGame {
             
             //menus
             if (level == 1.1){worldStage = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/worldOneOne.png")));}
-            else if (level == 1.2){worldStage = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/worldOneTwo.png")));}
-            else if (level == 10){worldStage = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/gameOver.png")));}
+            if (level == 1.2){worldStage = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/worldOneTwo.png")));}
+            if (level == 10){worldStage = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/gameOver.png")));}
             title = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/Mikecraft.png")));
             quitButton = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/quit.png")));
             startButton = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/start.png")));
             titleBack = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/panorama_1.png")));
 		} catch (IOException e) {
             e.printStackTrace();
-            System.out.println("MISSING TEXTURE");
+            System.out.println("MISSING TEXTURE!");
             Display.destroy();
             System.exit(1);
         }
-		while(!Display.isCloseRequested()){
+		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(1)){
 			setCamera();
 			if(state == State.GAME){World.chooseLevel();
 			player.draw();
@@ -148,11 +132,6 @@ public class MainGame {
 	}
 	private static void checkInput() {
         switch (state) {
-            case GAME:
-                if (Keyboard.isKeyDown(Keyboard.KEY_BACK)) {
-                    state = State.MAIN_MENU;
-                }
-                break;
             case MAIN_MENU:
                 if (Mouse.getY() >= Height / 2 - 100 && Mouse.getY() <= Height / 2 && Mouse.getX() >= Width / 2 - 128 && Mouse.getX() <= Width / 2 + 128 && Mouse.isButtonDown(0)) {
                 	state = State.STAGE_SWAP;
@@ -164,21 +143,18 @@ public class MainGame {
                 }
                 break;
             case STAGE_SWAP:
-                if (Keyboard.isKeyDown(Keyboard.KEY_RETURN) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                    if (level == 10){
-                    	state = State.MAIN_MENU;
-                    	level = 1.1;
+                if (Keyboard.isKeyDown(28) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                    if (level == 1.2){
+                    	state = State.GAME;
                     	try {
 							MainGame.main(null);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+                    }if (level == 10){
+                    	level = 1.1;
+                    	state = State.MAIN_MENU;
                     } else {
-                    	/*try {
-    						TimeUnit.SECONDS.sleep((long) 2.5);
-    					} catch (InterruptedException e) {
-    						e.printStackTrace();
-    					}*/
                     	state = State.GAME;
                         break; 
                     }

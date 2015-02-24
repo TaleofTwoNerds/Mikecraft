@@ -1,7 +1,10 @@
-package mikecraft;
+package worlds;
 
 import static mikecraft.MainGame.*;
 import static org.lwjgl.opengl.GL11.*;
+import mikecraft.Gravity;
+import mikecraft.MainGame;
+import mikecraft.MainGame.State;
 
 import org.lwjgl.input.Keyboard;
 

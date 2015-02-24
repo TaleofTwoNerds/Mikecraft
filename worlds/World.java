@@ -1,4 +1,6 @@
-package mikecraft;
+package worlds;
+
+import mikecraft.MainGame;
 
 import org.lwjgl.Sys;
 

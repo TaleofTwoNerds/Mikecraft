@@ -12,8 +12,7 @@ public class Player {
 	public Player(){
 		x = 100;
 		y = BlockSize * 2;
-		dx = 1;
-		
+		dx = 4;
 	}
 
 	public void sleeping(){
@@ -43,7 +42,6 @@ public class Player {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		// enable alpha blending
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glTranslated(x, y, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         if (dx < 0){
