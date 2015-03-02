@@ -4,7 +4,8 @@ import org.newdawn.slick.opengl.Texture;
 
 public abstract class AbstractMoveableEntity extends AbstractEntity implements MoveableEntity {
 
-	protected double dx ,dy;
+	public double dx;
+	protected double dy;
 	
 	public AbstractMoveableEntity(Texture t, double x, double y, double height,
 			double width) {

@@ -3,11 +3,17 @@ package mikecraft;
 import static org.lwjgl.opengl.GL11.*;
 import static mikecraft.MainGame.*;
 
+import java.awt.Rectangle;
+
+import entity.Entity;
+
 public class Player {
 	
 	public static double x, y, z, dx, dy;
 	public static boolean jumpPressed, jumpWasPressed, end = false;
-	public static int SteveX, SteveY;
+	public static int SteveX, SteveY;	
+	protected static Rectangle hitbox = new Rectangle();
+
 	
 	public Player(){
 		x = 100;
@@ -45,7 +51,7 @@ public class Player {
 		glTranslated(x, Height - y, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         if (dx < 0){
-        	playerSkin.bind();
+        	PlayerSkin.bind();
     		glBegin(GL_QUADS);
     		glTexCoord2f(1, 1);
     		glVertex2d(-SteveX, 0);
@@ -57,7 +63,7 @@ public class Player {
     		glVertex2d(-SteveX, -SteveY);
     		glEnd();
         } else {
-        	playerSkin.bind();
+        	PlayerSkin.bind();
     		glBegin(GL_QUADS);
     		glTexCoord2f(0, 1);
     		glVertex2d(-SteveX, 0);
@@ -84,5 +90,9 @@ public class Player {
 	}
 	public double getDY(){
 		return dy;
+	}
+	public static boolean intersects(Entity other) {
+		hitbox.setBounds((int) x, (int) y, (int) SteveX, (int) SteveY);
+		return hitbox.intersects(other.getX(), other.getY(), other.getWidth(), other.getHeight());
 	}
 }

@@ -1,25 +1,24 @@
 package levels;
 
 import static mikecraft.MainGame.*;
-import static org.lwjgl.opengl.GL11.*;
-
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.Texture;
-
-import entity.AbstractMoveableEntity;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 import mikecraft.Gravity;
 import mikecraft.MainGame;
-import mikecraft.Player;
 import mikecraft.MainGame.State;
+import mikecraft.Player;
 
-public class WorldOneTwo extends Gravity{
+import org.lwjgl.Sys;
+import org.newdawn.slick.Color;
+
+public class WorldOneTwo extends Gravity
+{
 	public static boolean spawnEmerald = false;
-	public static World.Emerald emeraldOne;
-	public static World.Block back,brickOne, brickTwo, brickThree, brickFour, goldOne, goldTwo, goldThree, goldFour, goldFive;
-	public static World.Ground groundOne, groundTwo;
-	public static World.Hill hillOne, hillTwo, hillThree, hillFour;
+	public static float decell = (float) 0.8;
+	public static World.Emerald emerald[] = new World.Emerald[10];
+	public static World.Block back,brick[] = new World.Block[10], gold[] = new World.Block[10];
+	public static World.Ground ground[] = new World.Ground[4];
+	public static World.Hill hill[] = new World.Hill[10];
 	private static long lastFrame;
 
     private static long getTime() 
@@ -40,73 +39,61 @@ public class WorldOneTwo extends Gravity{
     	WorldOneTwo.drawBackground();
 		WorldOneTwo.gravitation();
 		WorldOneTwo.render();
+		WorldOneTwo.logic(getDelta());
     }
     
 	public static void drawBackground() 
 	{
-		back = new World.Block(sky,0, 0, -Height * 2, Width * 5);
-		groundOne = new World.Ground(dirt,0, BlockSize * 2, BlockSize * 2, Width * 2);
-		groundTwo = new World.Ground(dirt, Width * 2 + BlockSize * 2, BlockSize * 2, BlockSize * 2, Width * 3);
-		hillOne = new World.Hill(grass, Width * 2 + BlockSize * 6, BlockSize * 3, BlockSize, Width);
-		hillTwo = new World.Hill(grass, Width * 2 + BlockSize * 8, BlockSize * 4, BlockSize, Width - BlockSize * 2);
-		hillThree = new World.Hill(grass, Width * 3, BlockSize * 5, BlockSize, Width - BlockSize * 4);
-		hillFour = new World.Hill(grass, Width * 3 + BlockSize * 2, BlockSize * 6, BlockSize, Width - BlockSize * 6);
+		back = new World.Block(Sky,0, 0, -Height * 2, Width * 8);
+		ground[1] = new World.Ground(Dirt,0, BlockSize * 2, BlockSize * 2, Width * 2);
+		ground[2] = new World.Ground(Dirt, Width * 2 + BlockSize * 3, BlockSize * 2, BlockSize * 2, Width * 2);
+		ground[3] = new World.Ground(Dirt, Width * 4 + BlockSize * 6, BlockSize * 2, BlockSize * 2, Width * 3);
+		hill[1] = new World.Hill(Grass, Width * 2 + BlockSize * 9, BlockSize * 3, BlockSize, BlockSize * 5);
+		hill[2] = new World.Hill(Grass, Width * 3, BlockSize * 4, BlockSize, BlockSize * 4);
+		hill[3] = new World.Hill(Grass, Width * 3 + BlockSize, BlockSize * 5, BlockSize, BlockSize * 3);
+		hill[4] = new World.Hill(Grass, Width * 3 + BlockSize * 2, BlockSize * 6, BlockSize, BlockSize * 2);
 		
         //blocks
 		
-		brickOne = new World.Block(brick, BlockSize * 8, BlockSize * 5, BlockSize, BlockSize);
-		brickTwo = new World.Block(brick, BlockSize * 10, BlockSize * 5, BlockSize, BlockSize);
-		brickThree = new World.Block(brick, Width + BlockSize * 2, BlockSize * 5, BlockSize, BlockSize);
-		brickFour = new World.Block(brick, Width + BlockSize * 4, BlockSize * 5, BlockSize, BlockSize);
+		brick[1] = new World.Block(Brick, BlockSize * 8, BlockSize * 5, BlockSize, BlockSize);
+		brick[2] = new World.Block(Brick, BlockSize * 10, BlockSize * 5, BlockSize, BlockSize);
+		brick[3] = new World.Block(Brick, Width + BlockSize * 2, BlockSize * 5, BlockSize, BlockSize);
+		brick[4] = new World.Block(Brick, Width + BlockSize * 4, BlockSize * 5, BlockSize, BlockSize);
         
-		goldOne = new World.Block(gold, Width + BlockSize, BlockSize * 5, BlockSize, BlockSize);
-        goldTwo = new World.Block(gold, Width * 3 + BlockSize * 6, BlockSize * 3, BlockSize, BlockSize);
-        goldThree = new World.Block(gold, Width * 3 + BlockSize * 6, BlockSize * 4, BlockSize, BlockSize);
-        goldFour = new World.Block(gold, Width * 3 + BlockSize * 6, BlockSize * 5, BlockSize, BlockSize);
-        goldFive = new World.Block(gold, Width * 3 + BlockSize * 6, BlockSize * 6, BlockSize, BlockSize);
+		gold[1] = new World.Block(Gold, Width + BlockSize, BlockSize * 5, BlockSize, BlockSize);
+        gold[2] = new World.Block(Gold, Width * 3 + BlockSize * 4, BlockSize * 3, BlockSize, BlockSize);
+        gold[3] = new World.Block(Gold, Width * 3 + BlockSize * 4, BlockSize * 4, BlockSize, BlockSize);
+        gold[4] = new World.Block(Gold, Width * 3 + BlockSize * 4, BlockSize * 5, BlockSize, BlockSize);
+        gold[5] = new World.Block(Gold, Width * 3 + BlockSize * 4, BlockSize * 6, BlockSize, BlockSize);
         
-        emeraldOne = new World.Emerald(emerald, Width + BlockSize, BlockSize * 6 + BlockSize / 6, BlockSize, BlockSize);
-        
-        //emeralds
-				
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        flag.bind();
-        glBegin(GL_QUADS);
-        glTexCoord2f(0, 0);
-        glVertex2i(Width * 4 - BlockSize, BlockSize * 6); // Upper-left
-        glTexCoord2f(1, 0);
-        glVertex2i(Width * 4, BlockSize * 6); // Upper-right
-        glTexCoord2f(1, 4);
-        glVertex2i(Width * 4, BlockSize * 2); // Bottom-right
-        glTexCoord2f(0, 4);
-        glVertex2i(Width * 4 - BlockSize, BlockSize * 2); // Bottom-left
-        glEnd();
+        emerald[1] = new World.Emerald(Emerald, Width + BlockSize, BlockSize * 6 + BlockSize / 6, BlockSize, BlockSize);
 	}
 	static void render() 
 	{
         glClear(GL_COLOR_BUFFER_BIT);
         back.draw();
-        emeraldOne.draw();
-		emeraldOne.setDX(5);
-        brickOne.draw();
-        brickTwo.draw();
-        brickThree.draw();
-        brickFour.draw();
-        goldOne.draw();
-        goldTwo.draw();
-        goldThree.draw();
-        goldFour.draw();
-        goldFive.draw();
-        groundOne.draw();
-        groundTwo.draw();
-        hillOne.draw();
-        hillTwo.draw();
-        hillThree.draw();
-        hillFour.draw();
+        if(Gravity.emeraldOne){emerald[1].draw();}
+		brick[1].draw();
+		brick[2].draw();
+		brick[3].draw();
+		brick[4].draw();
+        gold[1].draw();
+        gold[2].draw();
+        gold[3].draw();
+        gold[4].draw();
+        gold[5].draw();
+        ground[1].draw();
+        ground[2].draw();
+        ground[3].draw();
+        hill[1].draw();
+        hill[2].draw();
+        hill[3].draw();
+        hill[4].draw();
         
         fontRender();
     }
 	
+	@SuppressWarnings("deprecation")
 	private static void fontRender()
 	{
 		font.drawString(100, 20, "THIS WORLD IS", Color.white);
@@ -114,92 +101,38 @@ public class WorldOneTwo extends Gravity{
 		font.drawString(Width * 3 + BlockSize * 4, -Height - 70, "NOT UPSIDE DOWN :D", Color.white);
 	}
 	
-	static void logic(int delta){
-        emeraldOne.update(delta);
+	static void logic(int delta)
+	{
+        emerald[1].update(delta);
 	}
-	public static void gravitation() {
-		if(((x <= Width * 2 || x >= Width * 2 + BlockSize * 2) && y <= BlockSize * 2 && y >= ((BlockSize / 3) * 5)/*if the y is about to be below the ground*/ && /*and player is on the x field of play*/ player.getX() <= Width * 4)){
+	public static void gravitation()
+	{
+		endLogic(0);
+		if (x >= Width - BlockSize * 2 && x <= Width - BlockSize * 1 && y >= BlockSize * 2.3)
+		{
 			dy = 0;
-			y = BlockSize * 2;
-			if (!Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-				dx = dx * 0.9;
-			} if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-				dx = dx * 0.9;
-			} if(jumpPressed && !jumpWasPressed){
-				if (Char == 1 || Char == 2) {dy = Height / 60;}
-				if (Char == 3){dy = Height / 50;}
-			}
-		} else if(y <= BlockSize * 3 && y >= BlockSize * 2 + ((BlockSize / 10) * 9) && x >= Width * 2 + BlockSize * 6 && x <= Width * 3 + BlockSize * 6){
-			if (dy  <= 0){
-				dy = 0;
-			}
-			y = BlockSize * 3;
-			if (!Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-				dx = dx * 0.9;
-			} if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-				dx = dx * 0.9;
-			} if(jumpPressed && !jumpWasPressed){
-				if (Char == 1 || Char == 2) {dy = Height / 60;}
-				if (Char == 3){dy = Height / 50;}
-			}
-		}  else if(y <= BlockSize * 4 && y >= BlockSize * 3 + ((BlockSize / 10) * 9) && x >= Width * 2 + BlockSize * 8 && x <= Width * 3 + BlockSize * 6){
-			if (dy  <= 0){
-				dy = 0;
-			}
-			y = BlockSize * 4;
-			if (!Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-				dx = dx * 0.9;
-			} if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-				dx = dx * 0.9;
-			} if(jumpPressed && !jumpWasPressed){
-				if (Char == 1 || Char == 2) {dy = Height / 60;}
-				if (Char == 3){dy = Height / 50;}
-			}
-		}  else if(y <= BlockSize * 5 && y >= BlockSize * 4 + ((BlockSize / 10) * 9) && x >= Width * 3 && x <= Width * 3 + BlockSize * 6){
-			if (dy  <= 0){
-				dy = 0;
-			}
-			y = BlockSize * 5;
-			if (!Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-				dx = dx * 0.9;
-			} if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-				dx = dx * 0.9;
-			} if(jumpPressed && !jumpWasPressed){
-				if (Char == 1 || Char == 2) {dy = Height / 60;}
-				if (Char == 3){dy = Height / 50;}
-			}
-		}  else if(y <= BlockSize * 6 && y >= BlockSize * 5 + ((BlockSize / 10) * 9) && x >= Width * 3 + BlockSize * 2 && x <= Width * 3 + BlockSize * 7){
-			if (dy  <= 0){
-				dy = 0;
-			}
-			y = BlockSize * 6;
-			if (!Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-				dx = dx * 0.9;
-			} if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-				dx = dx * 0.9;
-			} if(jumpPressed && !jumpWasPressed){
-				if (Char == 1 || Char == 2) {dy = Height / 60;}
-				if (Char == 3){dy = Height / 50;}
-			}
-		} else if (x >= Width - BlockSize * 2 && x <= Width - BlockSize * 1 && y >= BlockSize * 2.3){
-			dy -= 5;
-		} else if (x >= Width +  BlockSize  * 0 && x <= Width + BlockSize * 3 && y >= BlockSize * 2.3){
-			dy -= 5;
-			if (x >= Width + BlockSize * 1 && x <= Width + BlockSize * 2){
+		} else if (x >= Width +  BlockSize  * 0 && x <= Width + BlockSize * 3 && y >= BlockSize * 2.3)
+		{
+			dy = 0;
+			if (x >= Width + BlockSize * 1 && x <= Width + BlockSize * 2)
+			{
 			drawBackground();
 			}
-		} else if (x >= Width + BlockSize * 4 && x <= Width + BlockSize * 5 && y >= BlockSize * 2.3){
-			dy -= 5;
+		} else if (x >= Width + BlockSize * 4 && x <= Width + BlockSize * 5 && y >= BlockSize * 2.3)
+		{
+			dy = 0;
 		}
 		
-		if ( x >= Width * 4){
+		if ( x >= Width * 7)
+		{
 			dx = 0;
-			level = 10;
-			score = 0;
+			level = 3;
 			state = State.STAGE_SWAP;
-			try {
+			try 
+			{
 				MainGame.main(null);
-			} catch (Exception e) {
+			} catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
 			Player.x= 100;
