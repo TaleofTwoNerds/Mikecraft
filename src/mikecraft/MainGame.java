@@ -24,7 +24,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 @SuppressWarnings("deprecation")
 public class MainGame 
 {	
-	public static final String ver = "PRE 1.2";
+	public static final String ver = "PRE 1.1";
 	public static int Height = 480,Width = 640,Char = 1,levelTwo;
 	public static int nHeight = -Height;
 	public static String levelName[] = new String[12];
