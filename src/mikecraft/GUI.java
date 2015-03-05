@@ -18,6 +18,13 @@ public class GUI
 		levelName[4] = "1-4";
 		levelName[5] = "1-5";
 		
+		difficulty[3] = "Easy";
+		difficulty[2] = "Medium";
+		difficulty[1] = "Hard";
+		difficulty[0] = "Expert";
+		
+		charName[1] = "Steve";
+		
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		glEnable(GL_BLEND);
@@ -55,7 +62,7 @@ public class GUI
 		double bx = Width / 2 - 200;		
 		double byQuit = by + 128;
 		
-		Button.bind();		
+		Button[3].bind();		
 	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glBegin(GL_QUADS);		
 		glTexCoord2d(0, 1);
@@ -68,7 +75,7 @@ public class GUI
 	    glVertex2d(bx, by + 64); // Bottom-left
 		glEnd();
 		
-		QuitButton.bind();
+		Button[2].bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glBegin(GL_QUADS);	
 	    glTexCoord2d(0, 1);
@@ -81,9 +88,30 @@ public class GUI
 	    glVertex2d(bx, byQuit); // Bottom-left
 		glEnd();
 		
-		font.drawString(Width / 4 + BlockSize * 2 + 5, Height / 4 + 17, levelName[(int)level], Color.white);	
-		font.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 + 81, "Back", Color.white);
+		Button[4].bind();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glBegin(GL_QUADS);	
+	    glTexCoord2d(0, 1);
+	    glVertex2d(bx, byQuit + 64 + bHeight * 3); // Upper-left
+	    glTexCoord2d(1, 1);
+	    glVertex2d(bx + bWidth * 3, byQuit + 64 + bHeight * 3); // Upper-right
+	    glTexCoord2d(1, 0);
+	    glVertex2d(bx + bWidth * 3, byQuit + 64); // Bottom-right
+	    glTexCoord2d(0, 0);
+	    glVertex2d(bx, byQuit + 64); // Bottom-left
+		glEnd();
+		
+		font3.drawString(Width / 4 + BlockSize * 2 - 150, Height / 4 - 52, "Written by Blaine Harper", Color.white);
+		font3.drawString(Width / 4 + BlockSize * 2 + 5, Height / 4 + 12, levelName[(int)level], Color.white);	
+		if(difficultyi==1||difficultyi==3)
+		{
+			font3.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 + 76, difficulty[difficultyi], Color.white);
+		}else{
+			font3.drawString(Width / 4 + BlockSize * 2 - 15, Height / 4 + 76, difficulty[difficultyi], Color.white);
 		}
+		
+		font3.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 + 139, "Back", Color.white);
+}
 		
 		if(state == State.STAGE_SWAP){glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		Dirt.bind();
@@ -112,10 +140,12 @@ public class GUI
 		glEnd();
 		if (level == 0)
 		{
-			font2.drawString(Width / 4 + BlockSize * 2 - 85, Height / 4 + 17, "" + levelName[(int)level], Color.white);
+			font2.drawString(Width / 4 + BlockSize * 2 - 105, Height / 4 + 17, levelName[(int)level], Color.white);
 		} else {
-			font2.drawString(Width / 4 + BlockSize * 2 - 75, Height / 4 + 17, "World " + levelName[(int)level], Color.white);
+			font2.drawString(Width / 4 + BlockSize * 2 - 105, Height / 4 + 17, "World " + levelName[(int)level], Color.white);
 		}
+		font3.drawString(Width / 4 + BlockSize * 2 - 57, Height / 4 + 82, "PRESS ENTER", Color.white);
+		font3.drawString(Width / 4 + BlockSize * 2 - 22, Height / 4 + 114, "Lives: " + lives, Color.white);
 		}
 		
 		if(state == State.MAIN_MENU){glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -150,7 +180,7 @@ public class GUI
 		double by = Height / 2 - 175;
 		double bx = Width / 2 - 200;
 		
-	    StartButton.bind();		
+	    Button[1].bind();		
 	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glBegin(GL_QUADS);		
 		glTexCoord2d(0, 1);
@@ -163,7 +193,7 @@ public class GUI
 	    glVertex2d(bx, by); // Bottom-left
 		glEnd();	
 		
-		Button.bind();		
+		Button[3].bind();		
 	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glBegin(GL_QUADS);		
 		glTexCoord2d(0, 1);
@@ -178,17 +208,17 @@ public class GUI
 		
 		double byQuit = by + 128;
 		
-	    QuitButton.bind();
+		Button[4].bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glBegin(GL_QUADS);	
 	    glTexCoord2d(0, 1);
-	    glVertex2d(bx, byQuit + bHeight * 3); // Upper-left
+	    glVertex2d(bx, byQuit + 64 + bHeight * 3); // Upper-left
 	    glTexCoord2d(1, 1);
-	    glVertex2d(bx + bWidth * 3, byQuit + bHeight * 3); // Upper-right
+	    glVertex2d(bx + bWidth * 3, byQuit + 64 + bHeight * 3); // Upper-right
 	    glTexCoord2d(1, 0);
-	    glVertex2d(bx + bWidth * 3, byQuit); // Bottom-right
+	    glVertex2d(bx + bWidth * 3, byQuit + 64); // Bottom-right
 	    glTexCoord2d(0, 0);
-	    glVertex2d(bx, byQuit); // Bottom-left
+	    glVertex2d(bx, byQuit + 64); // Bottom-left
 		glEnd();
 		
 		fontRender();

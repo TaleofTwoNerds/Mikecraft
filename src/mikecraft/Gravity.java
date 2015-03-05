@@ -1,7 +1,7 @@
 package mikecraft;
 
 import static mikecraft.MainGame.*;
-import levels.World;
+import level.World;
 import mikecraft.MainGame.State;
 
 import org.lwjgl.input.Keyboard;
@@ -14,9 +14,9 @@ public class Gravity extends Player {
 			emeraldSix = true, emeraldSeven = true;
 	public static int score = 0;
 	
-	public static void detection(double x, double y, double width)
+	public static void detection(double x, double y, double width, double height)
 	{
-		double yBottom = y-BlockSize * .25;
+		double yBottom = y-BlockSize * .25, yTop = y+BlockSize*.25;
 		if(player.getY() <= y && player.getY() >= yBottom && player.getX() >= x-SteveX && player.getX() <= x+width+SteveX)
 		{
 			if(player.getDY() <= 0 && player.getY() >= yBottom)
@@ -54,7 +54,7 @@ public class Gravity extends Player {
 		} if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 			dx = dx * 0.9;
 		} if(jumpPressed && !jumpWasPressed){
-			if (Char == 1 || Char == 2) {dy = Height / 50;}
+			if (Char == 1 || Char == 2) {dy = Height / 45;}
 			if (Char == 3){dy = Height / 35;}
 		}
 		if (x <= SteveX)
@@ -71,8 +71,14 @@ public class Gravity extends Player {
 	{
 		if (y <= bottom)
 		{
-			level = 1;
-			state = State.MAIN_MENU;
+			if (MainGame.lives >= 1)
+			{
+				lives = lives - 1;
+			} else {
+				level = 0;
+				lives = 3;
+			}
+			state = State.STAGE_SWAP;
 			Player.x = 100;
 			Player.y = BlockSize * 2;
 		}

@@ -1,4 +1,4 @@
-package levels;
+package level;
 
 import static mikecraft.MainGame.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -102,12 +102,11 @@ public class WorldOneOne extends Gravity
 	@SuppressWarnings("deprecation")
 	private static void fontRender()
 	{
-		font.drawString(Width / 4, Height / 4 -  32, "THIS WORLD IS (NO LONGER)", Color.white);
-		font.drawString(Width / 4, Height / 4, "INVISIBLE", Color.white);
-		font.drawString(Width + BlockSize * 3, Height - BlockSize * 8, "You know what?", Color.white);
-		font.drawString(Width * 2, Height - BlockSize * 8, "Fight me", Color.white);
+		font3.drawString(Width / 4, Height / 4 -  32, "Welcome to", Color.white);
+		font3.drawString(Width / 4, Height / 4, "Mikecraft, Steve", Color.white);
+		font3.drawString(Width + BlockSize * 3, Height - BlockSize * 7, "Do you know why you're here?", Color.white);
+		font3.drawString(Width * 2 + BlockSize * 8, Height - BlockSize * 8, "My amusement ", Color.white);
 	}
-	
 	static void logic(int delta)
 	{
 
@@ -135,6 +134,8 @@ public class WorldOneOne extends Gravity
 			}
 			player.x= 100;
 			player.y = BlockSize * 2;
+			player.dx = 0;
+			player.dy = 0;
 		} if (emeraldOne && y <= BlockSize * 7 && y >= BlockSize * 4.9 && x >= Width - BlockSize && x <= Width){
 			score++;
 			emeraldOne = false;

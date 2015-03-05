@@ -1,10 +1,12 @@
-package levels;
+package level;
 
 import static mikecraft.MainGame.*;
 import mikecraft.Gravity;
 import mikecraft.MainGame.State;
 
-public class WorldOneFive extends Gravity 
+import org.newdawn.slick.Color;
+
+public class WorldOneFour extends Gravity 
 {
 	public static float decell = (float) 0.8;
 	private static World.Back dirtOne,dirtTwo;
@@ -24,14 +26,15 @@ public class WorldOneFive extends Gravity
 		dirtOne = new World.Back(Stone,Width / 2 + BlockSize * 4, BlockSize * 4, BlockSize * 2, BlockSize * 3);
 		dirtTwo = new World.Back(Stone,Width / 2 + BlockSize * 6, BlockSize * 5, BlockSize,BlockSize );
 		
-		ground[1] = new World.Ground(Dirt,0, BlockSize * 2, BlockSize * 2, Width * 10);
-//		ground[2] = new World.Ground(Dirt, Width * 3 + BlockSize * 4, BlockSize * 2, BlockSize * 2, Width * 6);
+		ground[1] = new World.Ground(Dirt,0, BlockSize * 2, BlockSize * 2, Width * 3);
+		ground[2] = new World.Ground(Dirt, Width * 3 + BlockSize * 4, BlockSize * 2, BlockSize * 2, Width * 7);
 		}
 
 	private static void render() 
 	{
 		back.draw();
 		ground[1].draw();
+		ground[2].draw();
 		fontRender();
 	}
 	
@@ -52,7 +55,7 @@ public class WorldOneFive extends Gravity
 		if ( x >= Width * 9)
 		{
 			dx = 0;
-			level = 0;
+			level = 5;
 			state = State.STAGE_SWAP;
 			Gravity.emeraldOne = true;
 			Gravity.emeraldTwo = true;
@@ -63,6 +66,8 @@ public class WorldOneFive extends Gravity
 			Gravity.emeraldSeven = true;
 			player.x= 100;
 			player.y = BlockSize * 2;
+			player.dx = 0;
+			player.dy = 0;
 		}
 	}
 }		

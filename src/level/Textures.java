@@ -1,4 +1,4 @@
-package levels;
+package level;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,9 +43,10 @@ public class Textures extends MainGame{
 
             //menus
             Title = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/Mikecraft.png")));
-            QuitButton = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/quit.png")));
-            StartButton = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/start.png")));
-            Button = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+            Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+            Button[2] = Button[1];
+            Button[3] = Button[2];
+            Button[4] = Button[3];
             TitleBack = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/panorama_1.png")));
 		} catch (IOException e) 
 		{

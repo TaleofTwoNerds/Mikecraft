@@ -1,5 +1,11 @@
 package mikecraft;
 
+import static mikecraft.MainGame.BlockSize;
+import static mikecraft.MainGame.Height;
+import static mikecraft.MainGame.Width;
+import static mikecraft.MainGame.difficultyi;
+import static mikecraft.MainGame.font3;
+import static mikecraft.MainGame.lives;
 import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.Font;
@@ -7,9 +13,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
-import levels.Textures;
-import levels.World;
+import level.Textures;
+import level.World;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -20,26 +27,28 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 @SuppressWarnings("deprecation")
 public class MainGame 
 {	
 	public static final String ver = "PRE 1.2";
-	public static int Height = 480,Width = 640,Char = 1,levelTwo;
+	public static int Height = 480,Width = 640,Char = 1,levelTwo,lives = 3,difficultyi = 3;
 	public static int nHeight = -Height;
-	public static String levelName[] = new String[12];
+	public static String levelName[] = new String[12],charName[] = new String[4],
+			difficulty[] = new String[4];
 	public static final int BlockSize = Width / 10;
 	public static Player player;
 	public static Enemy enemy;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10];
 	public static double level = 1;
-	public static TrueTypeFont font,font2;
+	public static TrueTypeFont font,font2,font3;
 
 	public static Texture t[] = new Texture[30];
 	public static Texture Sky,Dirt,Brick,Planks_oak,Tnt,
 		Gold,Redstone,Wheat7,Flag,Emerald,Grass,Stone;
 	public static Texture SteveChar,MikeChar,MineChar,PlayerSkin;
-	public static Texture Title,TitleBack,StartButton,QuitButton,Button;
+	public static Texture Title,TitleBack,Button[] = new Texture[5];
 
     public static enum State 
     {
@@ -53,14 +62,9 @@ public class MainGame
     	try 
     	{
             Display.setDisplayMode(new DisplayMode(Width, Height));
-//            Display.setFullscreen(true);
-    		int disX;
-    		int disXDec;
-    		int disY;
-    		disX = (int) (player.x + Width) / Width;
-    		disXDec = (int) Math.ceil((player.x / BlockSize) + 9 - disX * 10);
-    		disY = (int) player.y / BlockSize;
+            Display.setFullscreen(true);
     		Display.setTitle("Mikecraft "+ ver +" | Loading...");
+    		Display.setResizable(true);
             Display.create();
         } catch (LWJGLException e) 
         {
@@ -76,21 +80,27 @@ public class MainGame
 		try {
 			if(Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 364 && Mouse.getY() <= 412)
 			{			
-				StartButton = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
+				Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
 			} else {
-				StartButton = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+				Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
 			}
 			if(Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 236 && Mouse.getY() <= 284)
 			{			
-				QuitButton = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
+				Button[2] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
 			} else {
-				QuitButton = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+				Button[2] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
 			}
 			if(Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 300 && Mouse.getY() <= 348)
 			{			
-				Button = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
+				Button[3] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
 			} else {
-				Button = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+				Button[3] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+			}
+			if(Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 172 && Mouse.getY() <= 220)
+			{			
+				Button[4] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
+			} else {
+				Button[4] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
 			}
 		}
 		catch (FileNotFoundException e)
@@ -106,27 +116,42 @@ public class MainGame
 	{
 		// load a default java font
 		Font awtFont = new Font("Arial", Font.BOLD, size);
-		Font awtFont2 = new Font("Arial", Font.PLAIN, 48);
 		font = new TrueTypeFont(awtFont, false);
-		font2 = new TrueTypeFont(awtFont2, false);
+		
+		try {
+			InputStream inputStream	= ResourceLoader.getResourceAsStream("res/font/Minecraftia.ttf");
+			InputStream inputStream2	= ResourceLoader.getResourceAsStream("res/font/Minecraftia.ttf");
+
+			Font awtFont3 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont3 = awtFont3.deriveFont(24f); // set font size
+			font3 = new TrueTypeFont(awtFont3, false);
+	 
+			Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream2);
+			awtFont2 = awtFont2.deriveFont(48f); // set font size
+			font2 = new TrueTypeFont(awtFont2, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 	}
 	public static void fontRender()
 	{			
 		if (state == State.MAIN_MENU)
 		{
-			font.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 - 47, "Start", Color.white);
-			font.drawString(Width / 4 + BlockSize * 2 - 25, Height / 4 + 17, "Options", Color.white);
-			font.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 + 81, "Quit", Color.white);
+			font3.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 - 52, "Start", Color.white);
+			font3.drawString(Width / 4 + BlockSize * 2 - 25, Height / 4 + 12, "Options", Color.white);
+			font3.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 + 139, "Quit", Color.white);
 		}
 	}
 	public static void main(String args[]) throws Exception 
 	{
 		if(!display){setUpDisplay(); display = true;}
 		player = new Player();
-		fontInit(24);
 		Textures.t();
+		fontInit(24);
 		while(!Display.isCloseRequested())
 		{			
+//			FileIO.ReadMain("res/level/" + levelName[(int)level] + ".mkl");
+//			FileIO.WriteFile("res/level/" + levelName[(int)level] + ".mkl2");
 			checkInput();	
 			setTitle();
 			setCamera();
@@ -141,6 +166,7 @@ public class MainGame
 				GUI.drawBackground();	
 				dT();
 			}	
+//			System.out.println(levelName[(int)level]);
 //			System.out.println(Mouse.isButtonDown(0));
 //			System.out.println(level + " " + (int)(level-1)*10);
 //			System.out.println(levelName[(int) ((level-1)*10)]);
@@ -156,17 +182,14 @@ public class MainGame
 		Player.jumpPressed = true;
 	}
 	private static void setTitle()
-	{
-		int disX;
-		int disXDec;
-		int disY;
-		disX = (int) (Player.x + Width) / Width;
-		disXDec = (int) Math.ceil((Player.x / BlockSize) + 9 - disX * 10);
-		disY = (int) Player.y / BlockSize;
+	{   
+		int disX = (int) (player.x + Width) / Width;
+		int disXDec = (int) Math.ceil((player.x / BlockSize) + 9 - disX * 10);
+		int disY = (int) player.y / BlockSize;
 //		Game Title
-		Display.setTitle("Mikecraft " + ver + " | " + Gravity.score);
+//		Display.setTitle("Mikecraft " + ver + " | " + Gravity.score + " | " + lives);
 //		Dev Title
-//		Display.setTitle("Mikecraft "+ver+" | " + level + " | " + (disX - 1) + "." + disXDec + " , "+ disY + " | " + Gravity.score);
+		Display.setTitle("Mikecraft DEV "+ver+" | " + level + " | " + (disX - 1) + "." + disXDec + " , "+ disY + " | " + Gravity.score + " | " + lives);
 	}
 	private static void setCamera() 
 	{
@@ -197,8 +220,9 @@ public class MainGame
 		switch (state) 
 		{
 		case OPTIONS:
-			if (Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 300 && Mouse.getY() <= 348 && Mouse.isButtonDown(0) && released[0])
+			if (Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 300 && Mouse.getY() <= 348)
 			{
+				if ( Mouse.isButtonDown(0)  && released[0]){
 				released[0] = false;
 				if (level <= 4)
 				{
@@ -206,12 +230,25 @@ public class MainGame
 				} else {
 					level = 1;
 				}
+				}	
 			} else if(!Mouse.isButtonDown(0)){
 				released[0] = true;
 			}
-			if (Mouse.getY() >= 236 && Mouse.getY() <= 284 && Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.isButtonDown(0)) 
+			if (Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 236 && Mouse.getY() <= 284 && Mouse.isButtonDown(0) && released[0])
 			{
-				if (released[0])
+				released[0] = false;
+				if (difficultyi >= 1)
+				{
+					difficultyi = difficultyi-1;
+				} else {
+					difficultyi = 3;
+				}
+			} else if(!Mouse.isButtonDown(0)){
+				released[0] = true;
+			}
+			if (Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 172 && Mouse.getY() <= 220) 
+			{
+				if (released[0] && Mouse.isButtonDown(0))
 				{
 					released[0] = false;
 					state = State.MAIN_MENU;
@@ -228,6 +265,7 @@ public class MainGame
 				{
 					released[0] = false;
 					state = State.STAGE_SWAP;
+					if(level==1){lives = difficultyi;}
 					GUI.drawBackground();
 				} else if(!Mouse.isButtonDown(0)){
 					released[0] = true;
@@ -244,7 +282,7 @@ public class MainGame
 					released[0] = true;
 				}
 			}
-			if ((Mouse.getY() >= 236 && Mouse.getY() <= 284 && Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.isButtonDown(0) && released[0]) || (Keyboard.isKeyDown(1) && released[1])) 
+			if ((Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 172 && Mouse.getY() <= 220 && Mouse.isButtonDown(0) && released[0]) || (Keyboard.isKeyDown(1) && released[1])) 
 			{
 				Display.destroy();
 				System.exit(1);
@@ -254,13 +292,13 @@ public class MainGame
 			}
 			break;
 		case STAGE_SWAP:
-			if (Keyboard.isKeyDown(28) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) 
+			if (Keyboard.isKeyDown(28)) 
 			{
         		if (level == 0)
         		{
         			level = 1;
         			state = State.MAIN_MENU;
-        		} else 
+        		} else
         		{
         			state = State.GAME;
         			break; 

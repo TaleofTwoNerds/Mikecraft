@@ -1,4 +1,4 @@
-package levels;
+package level;
 
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
@@ -47,7 +47,7 @@ public class World extends MainGame
         return (Sys.getTime() * 1000) / Sys.getTimerResolution();
     }
 
-    protected static int getDelta() 
+    public static int getDelta() 
     {
         long currentTime = getTime();
         int delta = (int) (currentTime - lastFrame);
@@ -84,7 +84,6 @@ public class World extends MainGame
 	}
     public static class Block extends AbstractMoveableEntity 
     {
-
 		public Block(Texture t, double x, double y, double height, double width) 
 		{
 			super(t, x, y, height, width);
@@ -92,8 +91,8 @@ public class World extends MainGame
 		
 		@Override
 		public void draw() 
-		{			
-			Gravity.detection(x, y, width);
+		{
+			Gravity.detection(x,y,width,height);
 			y = Height - y;
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			t.bind();
@@ -107,8 +106,7 @@ public class World extends MainGame
         	glTexCoord2d(0, -(height / 64));
         	glVertex2d(x, y); // Bottom-left
         	glEnd();
-		}
-		
+		}	
 	}
 	public static class Hill extends AbstractMoveableEntity 
 	{
@@ -121,7 +119,7 @@ public class World extends MainGame
 		@Override
 		public void draw() 
 		{
-			Gravity.detection(x, y, width);
+			Gravity.detection(x,y,width,height);
 			y = Height - y;
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			t.bind();
@@ -149,7 +147,7 @@ public class World extends MainGame
 		@Override
 		public void draw() 
 		{
-			Gravity.detection(x, y, width);
+			Gravity.detection(x,y,width,height);
 			y = Height - y;
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			t.bind();
