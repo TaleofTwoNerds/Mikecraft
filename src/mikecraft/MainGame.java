@@ -32,15 +32,7 @@ import org.newdawn.slick.util.ResourceLoader;
 @SuppressWarnings("deprecation")
 public class MainGame 
 {	
-<<<<<<< HEAD
-<<<<<<< HEAD
 	public static final String ver = "PRE 1.3";
-=======
-	public static final String ver = "PRE 1.2";
->>>>>>> FETCH_HEAD
-=======
-	public static final String ver = "PRE 1.2";
->>>>>>> FETCH_HEAD
 	public static int Height = 480,Width = 640,Char = 1,levelTwo,lives = 3,difficultyi = 3;
 	public static int nHeight = -Height;
 	public static String levelName[] = new String[12],charName[] = new String[4],
