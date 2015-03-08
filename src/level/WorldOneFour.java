@@ -22,12 +22,13 @@ public class WorldOneFour extends Gravity
 
 	private static void drawBackground() 
 	{
+		enemy.setBounds(Width * 3, Width * 6);
 		back = new World.Block(Sky,0, 0, -Height * 2, Width * 10);
-		dirtOne = new World.Back(Stone,Width / 2 + BlockSize * 4, BlockSize * 4, BlockSize * 2, BlockSize * 3);
-		dirtTwo = new World.Back(Stone,Width / 2 + BlockSize * 6, BlockSize * 5, BlockSize,BlockSize );
+		dirtOne = new World.Back(Stone,Width / 2 + blockSize * 4, blockSize * 4, blockSize * 2, blockSize * 3);
+		dirtTwo = new World.Back(Stone,Width / 2 + blockSize * 6, blockSize * 5, blockSize,blockSize );
 		
-		ground[1] = new World.Ground(Dirt,0, BlockSize * 2, BlockSize * 2, Width * 3);
-		ground[2] = new World.Ground(Dirt, Width * 3 + BlockSize * 4, BlockSize * 2, BlockSize * 2, Width * 7);
+		ground[1] = new World.Ground(Dirt,0, blockSize * 2, blockSize * 2, Width * 3);
+		ground[2] = new World.Ground(Dirt, Width * 3 + blockSize * 4, blockSize * 2, blockSize * 2, Width * 7);
 		}
 
 	private static void render() 
@@ -41,7 +42,7 @@ public class WorldOneFour extends Gravity
 	@SuppressWarnings("deprecation")
 	private static void fontRender()
 	{
-
+		font3.drawString(Width / 4, Height / 4 -  32, "You know what? I have a social life and things that I need to do on a daily basis. My life is not completely devoted to you. So yeah. I have't finished this level yet. Get over it.", Color.white);
 	}
 	
 	public static void logic(int delta) 
@@ -65,7 +66,7 @@ public class WorldOneFour extends Gravity
 			Gravity.emeraldSix = true;
 			Gravity.emeraldSeven = true;
 			player.x= 100;
-			player.y = BlockSize * 2;
+			player.y = blockSize * 2;
 			player.dx = 0;
 			player.dy = 0;
 		}

@@ -1,6 +1,6 @@
 package mikecraft;
 
-import static mikecraft.MainGame.BlockSize;
+import static mikecraft.MainGame.blockSize;
 import static mikecraft.MainGame.Height;
 import static mikecraft.MainGame.Width;
 import static mikecraft.MainGame.difficultyi;
@@ -32,17 +32,12 @@ import org.newdawn.slick.util.ResourceLoader;
 @SuppressWarnings("deprecation")
 public class MainGame 
 {	
-<<<<<<< HEAD
-	public static final String ver = "PRE 1.2";
+	public static final String ver = "PRE 1.3";
 	public static int Height = 480,Width = 640,Char = 1,levelTwo,lives = 3,difficultyi = 3;
-=======
-	public static final String ver = "PRE 1.1";
-	public static int Height = 480,Width = 640,Char = 1,levelTwo;
->>>>>>> FETCH_HEAD
 	public static int nHeight = -Height;
 	public static String levelName[] = new String[12],charName[] = new String[4],
 			difficulty[] = new String[4];
-	public static final int BlockSize = Width / 10;
+	public static final int blockSize = Width / 10;
 	public static Player player;
 	public static Enemy enemy;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10];
@@ -52,7 +47,7 @@ public class MainGame
 	public static Texture t[] = new Texture[30];
 	public static Texture Sky,Dirt,Brick,Planks_oak,Tnt,
 		Gold,Redstone,Wheat7,Flag,Emerald,Grass,Stone;
-	public static Texture SteveChar,MikeChar,MineChar,PlayerSkin;
+	public static Texture SteveChar,MikeChar,MineChar,PlayerSkin,Steve2;
 	public static Texture Title,TitleBack,Button[] = new Texture[5];
 
     public static enum State 
@@ -83,25 +78,25 @@ public class MainGame
 	public static void dT() 
 	{	
 		try {
-			if(Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 364 && Mouse.getY() <= 412)
+			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height - 116 && Mouse.getY() <= Height - 68)
 			{			
 				Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
 			} else {
 				Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
 			}
-			if(Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 236 && Mouse.getY() <= 284)
+			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 && Mouse.getY() <= Height / 2 + 44)
 			{			
 				Button[2] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
 			} else {
 				Button[2] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
 			}
-			if(Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 300 && Mouse.getY() <= 348)
+			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 + 60 && Mouse.getY() <= Height / 2 + 108)
 			{			
 				Button[3] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
 			} else {
 				Button[3] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
 			}
-			if(Mouse.getX() >= 122 && Mouse.getX() <= 504 && Mouse.getY() >= 172 && Mouse.getY() <= 220)
+			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 - 68 && Mouse.getY() <= Height / 2 - 20)
 			{			
 				Button[4] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
 			} else {
@@ -142,39 +137,35 @@ public class MainGame
 	{			
 		if (state == State.MAIN_MENU)
 		{
-			font3.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 - 52, "Start", Color.white);
-			font3.drawString(Width / 4 + BlockSize * 2 - 25, Height / 4 + 12, "Options", Color.white);
-			font3.drawString(Width / 4 + BlockSize * 2 - 5, Height / 4 + 139, "Quit", Color.white);
+			font3.drawString(Width / 4 + blockSize * 2 - 5, Height / 4 - 52, "Start", Color.white);
+			font3.drawString(Width / 4 + blockSize * 2 - 25, Height / 4 + 12, "Options", Color.white);
+			font3.drawString(Width / 4 + blockSize * 2 - 5, Height / 4 + 139, "Quit", Color.white);
 		}
 	}
 	public static void main(String args[]) throws Exception 
 	{
 		if(!display){setUpDisplay(); display = true;}
 		player = new Player();
+		enemy = new Enemy();
 		Textures.t();
 		fontInit(24);
 		while(!Display.isCloseRequested())
-		{			
-//			FileIO.ReadMain("res/level/" + levelName[(int)level] + ".mkl");
-//			FileIO.WriteFile("res/level/" + levelName[(int)level] + ".mkl2");
+		{
 			checkInput();	
 			setTitle();
 			setCamera();
 			if(state == State.GAME)
 			{
 				World.chooseLevel();
+				if(enemy.toDraw){enemy.draw();}
 				player.draw();
-				Enemy.draw();
-				}
+			}
 			else
 			{
 				GUI.drawBackground();	
 				dT();
-			}	
-//			System.out.println(levelName[(int)level]);
-//			System.out.println(Mouse.isButtonDown(0));
-//			System.out.println(level + " " + (int)(level-1)*10);
-//			System.out.println(levelName[(int) ((level-1)*10)]);
+			}
+//			System.out.println(player.x + " | " + enemy.x);
 //			System.out.println("Mouse x: " + Mouse.getX() + " Mouse y: " + Mouse.getY());
 			Display.update();
 			Display.sync(60);
@@ -189,8 +180,8 @@ public class MainGame
 	private static void setTitle()
 	{   
 		int disX = (int) (player.x + Width) / Width;
-		int disXDec = (int) Math.ceil((player.x / BlockSize) + 9 - disX * 10);
-		int disY = (int) player.y / BlockSize;
+		int disXDec = (int) Math.ceil((player.x / blockSize) + 9 - disX * 10);
+		int disY = (int) player.y / blockSize;
 //		Game Title
 //		Display.setTitle("Mikecraft " + ver + " | " + Gravity.score + " | " + lives);
 //		Dev Title
@@ -208,7 +199,8 @@ public class MainGame
         //modify model view matrix
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        if (Player.x >= Width / 2)
+        
+		if (Player.x >= Width / 2)
         {
         	if (Player.y >= Height / 2) 
         	{
@@ -314,7 +306,7 @@ public class MainGame
 			{
 				released[1] = false;
 				player.x = 100;
-				player.y = BlockSize * 2;
+				player.y = blockSize * 2;
 				state = State.MAIN_MENU;
 				GUI.drawBackground();
 			}

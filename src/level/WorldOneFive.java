@@ -23,25 +23,27 @@ public class WorldOneFive extends Gravity
 
 	private static void drawBackground() 
 	{
-		back = new World.Block(Sky,0, 0, -Height * 3, Width * 10);
-		dirtOne = new World.Back(Stone,Width / 2 + BlockSize * 4, BlockSize * 4, BlockSize * 2, BlockSize * 3);
-		dirtTwo = new World.Back(Stone,Width / 2 + BlockSize * 6, BlockSize * 5, BlockSize,BlockSize );
-		
-		ground[1] = new World.Ground(Dirt,0, BlockSize * 2, BlockSize * 2, Width / 2);
-		ground[2] = new World.Ground(Dirt,Width * 5, BlockSize * 2, BlockSize * 2, Width * 5);
+		enemy.setBounds(Width * 5 + Width / 2, Width * 6 + Width / 2);
 
-		bridge[1] = new World.Block(Planks_oak, BlockSize * 5, BlockSize * 4, BlockSize, BlockSize * 3);
-		bridge[2] = new World.Block(Planks_oak, BlockSize * 7, BlockSize * 6, BlockSize, BlockSize * 3);
-		bridge[3] = new World.Block(Planks_oak, BlockSize * 9, BlockSize * 8, BlockSize, BlockSize * 3);
+		back = new World.Block(Sky,0, 0, -Height * 3, Width * 10);
+		dirtOne = new World.Back(Stone,Width / 2 + blockSize * 4, blockSize * 4, blockSize * 2, blockSize * 3);
+		dirtTwo = new World.Back(Stone,Width / 2 + blockSize * 6, blockSize * 5, blockSize,blockSize );
+		
+		ground[1] = new World.Ground(Dirt,0, blockSize * 2, blockSize * 2, Width / 2);
+		ground[2] = new World.Ground(Dirt,Width * 5, blockSize * 2, blockSize * 2, Width * 5);
+
+		bridge[1] = new World.Block(Planks_oak, blockSize * 5, blockSize * 4, blockSize, blockSize * 3);
+		bridge[2] = new World.Block(Planks_oak, blockSize * 7, blockSize * 6, blockSize, blockSize * 3);
+		bridge[3] = new World.Block(Planks_oak, blockSize * 9, blockSize * 8, blockSize, blockSize * 3);
 	
-		island[1] = new World.Block(Grass,Width + BlockSize, BlockSize * 8, BlockSize, BlockSize * 3);
-		island[2] = new World.Block(Grass,Width + BlockSize * 7, BlockSize * 7, BlockSize, BlockSize * 3);
-		island[3] = new World.Block(Grass,Width * 2 + BlockSize * 4, BlockSize * 8, BlockSize, BlockSize * 3);
-		island[4] = new World.Block(Grass,Width * 2 + BlockSize * 9, BlockSize * 9, BlockSize, BlockSize * 3);
-		island[5] = new World.Block(Grass,Width * 3 + BlockSize * 4, BlockSize * 10, BlockSize, BlockSize * 3);
-		island[6] = new World.Block(Grass,Width * 3 + BlockSize * 9, BlockSize * 8, BlockSize, BlockSize * 3);
-		island[7] = new World.Block(Grass,Width * 4 + BlockSize * 5, BlockSize * 9, BlockSize, BlockSize * 3);
-		island[8] = new World.Block(Grass,Width * 5 + BlockSize * 3, BlockSize * 7, BlockSize, BlockSize * 3);
+		island[1] = new World.Block(Grass,Width + blockSize, blockSize * 8, blockSize, blockSize * 3);
+		island[2] = new World.Block(Grass,Width + blockSize * 7, blockSize * 7, blockSize, blockSize * 3);
+		island[3] = new World.Block(Grass,Width * 2 + blockSize * 4, blockSize * 8, blockSize, blockSize * 3);
+		island[4] = new World.Block(Grass,Width * 2 + blockSize * 9, blockSize * 9, blockSize, blockSize * 3);
+		island[5] = new World.Block(Grass,Width * 3 + blockSize * 4, blockSize * 10, blockSize, blockSize * 3);
+		island[6] = new World.Block(Grass,Width * 3 + blockSize * 9, blockSize * 8, blockSize, blockSize * 3);
+		island[7] = new World.Block(Grass,Width * 4 + blockSize * 5, blockSize * 9, blockSize, blockSize * 3);
+		island[8] = new World.Block(Grass,Width * 5 + blockSize * 3, blockSize * 7, blockSize, blockSize * 3);
 		}
 
 	private static void render() 
@@ -67,8 +69,8 @@ public class WorldOneFive extends Gravity
 	private static void fontRender()
 	{		
 		font3.drawString(Width / 4, Height / 4 -  32, "Going up?", Color.white);
-		font3.drawString(Width * 8 + BlockSize * 6, BlockSize, "Written by");
-		font3.drawString(Width * 8 + BlockSize * 6, BlockSize * 2, "Blaine Harper");
+		font3.drawString(Width * 8 + blockSize * 6, blockSize, "Written by");
+		font3.drawString(Width * 8 + blockSize * 6, blockSize * 2, "Blaine Harper");
 	}
 	
 	public static void logic(int delta) 
@@ -92,7 +94,7 @@ public class WorldOneFive extends Gravity
 			Gravity.emeraldSix = true;
 			Gravity.emeraldSeven = true;
 			player.x= 100;
-			player.y = BlockSize * 2;
+			player.y = blockSize * 2;
 			player.dx = 0;
 			player.dy = 0;
 		}

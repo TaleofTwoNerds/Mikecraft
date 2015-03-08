@@ -23,25 +23,27 @@ public class WorldOneThree extends Gravity
 
 	private static void drawBackground() 
 	{
-		back = new World.Block(Sky,0, 0, -Height * 2, Width * 10);
-		dirtOne = new World.Back(Stone,Width / 2 + BlockSize * 4, BlockSize * 4, BlockSize * 2, BlockSize * 3);
-		dirtTwo = new World.Back(Stone,Width / 2 + BlockSize * 6, BlockSize * 5, BlockSize,BlockSize );
-		
-		ground[1] = new World.Ground(Dirt,0, BlockSize * 2, BlockSize * 2, Width * 2 - BlockSize);
-		ground[2] = new World.Ground(Dirt, Width * 2 + BlockSize * 3, BlockSize * 2, BlockSize * 2, Width * 2 - BlockSize);
-		ground[3] = new World.Ground(Dirt, Width * 4 + BlockSize * 2, BlockSize, BlockSize * 2, Width);
-		ground[4] = new World.Ground(Dirt, Width * 5 + BlockSize * 2, BlockSize * 2, BlockSize * 2, Width / 2);
-		ground[5] = new World.Ground(Dirt, Width * 6 + BlockSize * 6, BlockSize * 2, BlockSize * 2, Width * 5);
+		enemy.setBounds(Width * 4 + blockSize * 2, Width * 5 + blockSize * 2);
 
-		bridge[1] = new World.Block(Grass, Width /2 + BlockSize * 2, BlockSize * 3, BlockSize, BlockSize * 2);
-		bridge[2] = new World.Block(Grass, Width /2 + BlockSize * 3, BlockSize * 4, BlockSize, BlockSize * 2);
-		bridge[3] = new World.Block(Grass, Width /2 + BlockSize * 4, BlockSize * 5, BlockSize, BlockSize * 2);
-		bridge[4] = new World.Block(Grass, Width, BlockSize * 6, BlockSize, BlockSize * 2);
-		bridge[5] = new World.Block(Planks_oak, Width + BlockSize * 4, BlockSize * 6, BlockSize, BlockSize * 4);
-		bridge[6] = new World.Block(Planks_oak, Width * 2 + BlockSize * 2, BlockSize * 6, BlockSize, BlockSize * 4);
-		bridge[7] = new World.Block(Planks_oak, Width * 3, BlockSize * 5, BlockSize, BlockSize * 4);
-		bridge[8] = new World.Block(Planks_oak, Width * 4 + BlockSize * 3, BlockSize * 5, BlockSize, Width - BlockSize * 2);
-		bridge[9] = new World.Block(Planks_oak, Width * 5 + BlockSize * 9, BlockSize * 2, BlockSize, Width / 2);
+		back = new World.Block(Sky,0, 0, -Height * 2, Width * 10);
+		dirtOne = new World.Back(Stone,Width / 2 + blockSize * 4, blockSize * 4, blockSize * 2, blockSize * 3);
+		dirtTwo = new World.Back(Stone,Width / 2 + blockSize * 6, blockSize * 5, blockSize,blockSize );
+		
+		ground[1] = new World.Ground(Dirt,0, blockSize * 2, blockSize * 2, Width * 2 - blockSize);
+		ground[2] = new World.Ground(Dirt, Width * 2 + blockSize * 3, blockSize * 2, blockSize * 2, Width * 2 - blockSize);
+		ground[3] = new World.Ground(Dirt, Width * 4 + blockSize * 2, blockSize, blockSize * 2, Width);
+		ground[4] = new World.Ground(Dirt, Width * 5 + blockSize * 2, blockSize * 2, blockSize * 2, Width / 2);
+		ground[5] = new World.Ground(Dirt, Width * 6 + blockSize * 6, blockSize * 2, blockSize * 2, Width * 5);
+
+		bridge[1] = new World.Block(Grass, Width /2 + blockSize * 2, blockSize * 3, blockSize, blockSize * 2);
+		bridge[2] = new World.Block(Grass, Width /2 + blockSize * 3, blockSize * 4, blockSize, blockSize * 2);
+		bridge[3] = new World.Block(Grass, Width /2 + blockSize * 4, blockSize * 5, blockSize, blockSize * 2);
+		bridge[4] = new World.Block(Grass, Width, blockSize * 6, blockSize, blockSize * 2);
+		bridge[5] = new World.Block(Planks_oak, Width + blockSize * 4, blockSize * 6, blockSize, blockSize * 4);
+		bridge[6] = new World.Block(Planks_oak, Width * 2 + blockSize * 2, blockSize * 6, blockSize, blockSize * 4);
+		bridge[7] = new World.Block(Planks_oak, Width * 3, blockSize * 5, blockSize, blockSize * 4);
+		bridge[8] = new World.Block(Planks_oak, Width * 4 + blockSize * 3, blockSize * 5, blockSize, Width - blockSize * 2);
+		bridge[9] = new World.Block(Planks_oak, Width * 5 + blockSize * 9, blockSize * 2, blockSize, Width / 2);
 	}
 
 	private static void render() 
@@ -80,22 +82,22 @@ public class WorldOneThree extends Gravity
 	private static void gravitation() 
 	{
 		endLogic(0);
-		if((y <= BlockSize && y >= BlockSize && x >=  Width * 3))
+		if((y <= blockSize && y >= blockSize && x >=  Width * 3))
 		{ 
-			if(player.getX() <= Width * 4 + BlockSize * 2 + SteveX)
+			if(player.getX() <= Width * 4 + blockSize * 2 + SteveX)
 			{
 				if (dx <= 0)
 				{
 					dx = 0;
 				}
-				x = Width * 4 + BlockSize * 2 + SteveX;
+				x = Width * 4 + blockSize * 2 + SteveX;
 				movement();
-			} else if (player.getX() >= Width * 5 + BlockSize * 2 - SteveX){
+			} else if (player.getX() >= Width * 5 + blockSize * 2 - SteveX){
 				if (dx >= 0)
 				{
 					dx = 0;
 				}
-				x = Width * 5 + BlockSize * 2 - SteveX;
+				x = Width * 5 + blockSize * 2 - SteveX;
 			}
 		} if ( x >= Width * 9)
 		{
@@ -110,9 +112,11 @@ public class WorldOneThree extends Gravity
 			Gravity.emeraldSix = true;
 			Gravity.emeraldSeven = true;
 			player.x= 100;
-			player.y = BlockSize * 2;
+			player.y = blockSize * 2;
 			player.dx = 0;
 			player.dy = 0;
+			enemy.setPos(Width * 4, blockSize * 2);
+			enemy.setVisable(true);
 		}
 	}
 }		

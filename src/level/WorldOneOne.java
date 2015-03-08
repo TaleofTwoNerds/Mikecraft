@@ -6,6 +6,7 @@ import mikecraft.Gravity;
 import mikecraft.MainGame;
 import mikecraft.MainGame.State;
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.Color;
 
 public class WorldOneOne extends Gravity
@@ -20,38 +21,41 @@ public class WorldOneOne extends Gravity
 	public static void main()
 	{
 		drawBackground();
+		logic(getDelta());
 		gravitation();	
 		render();
 	}
 	
 	public static void drawBackground() 
 	{	
+		enemy.setBounds(Width * 5 / 2, Width * 7 / 2);
+
 		back = new World.Block(Sky,0, 0, -Height * 2, Width * 5);		
-		wheat = new World.Back(Wheat7, Width * 3 - BlockSize * 2, BlockSize * 3, BlockSize, BlockSize * 4);
-		explosive = new World.Back(Tnt, Width * 3 - BlockSize * 2, BlockSize * 3, BlockSize, BlockSize * 4);
+		wheat = new World.Back(Wheat7, Width * 3 - blockSize * 2, blockSize * 3, blockSize, blockSize * 4);
+		explosive = new World.Back(Tnt, Width * 3 - blockSize * 2, blockSize * 3, blockSize, blockSize * 4);
 
-		ground[1] = new World.Ground(Dirt, 0, BlockSize * 2, BlockSize * 2, Width * 2);
-		ground[2] = new World.Ground(Dirt, Width * 2 + BlockSize * 2, BlockSize * 2, BlockSize * 2, Width * 3);
+		ground[1] = new World.Ground(Dirt, 0, blockSize * 2, blockSize * 2, Width * 2);
+		ground[2] = new World.Ground(Dirt, Width * 2 + blockSize * 2, blockSize * 2, blockSize * 2, Width * 3);
 		
-		hill[1] = new World.Hill(Grass, Width - BlockSize, BlockSize * 3, BlockSize, BlockSize * 3);
-		hill[2] = new World.Hill(Grass, Width, BlockSize * 4, BlockSize, BlockSize * 3);
-		hill[3] = new World.Hill(Grass, Width - BlockSize * 2, BlockSize * 5, BlockSize, BlockSize * 4);
+		hill[1] = new World.Hill(Grass, Width - blockSize, blockSize * 3, blockSize, blockSize * 3);
+		hill[2] = new World.Hill(Grass, Width, blockSize * 4, blockSize, blockSize * 3);
+		hill[3] = new World.Hill(Grass, Width - blockSize * 2, blockSize * 5, blockSize, blockSize * 4);
 		
-		dirtOne = new World.Back(Dirt, Width - BlockSize * 2, BlockSize * 4, BlockSize * 2, BlockSize * 5);
+		dirtOne = new World.Back(Dirt, Width - blockSize * 2, blockSize * 4, blockSize * 2, blockSize * 5);
 		
-		bridge[1] = new World.Block(Planks_oak, Width * 2 - BlockSize, BlockSize * 2, BlockSize, BlockSize * 4);
-		bridge[2] = new World.Block(Planks_oak, Width + BlockSize * 5, BlockSize * 4, BlockSize, BlockSize * 2);
-		bridge[3] = new World.Block(Planks_oak, Width + BlockSize * 8, BlockSize * 5, BlockSize, BlockSize * 4);
-		bridge[4] = new World.Block(Planks_oak, Width * 2 + BlockSize * 4, BlockSize * 6, BlockSize, BlockSize * 4);
-		bridge[5] = new World.Block(Planks_oak, Width * 3 + BlockSize, BlockSize * 6, BlockSize, BlockSize * 3);
+		bridge[1] = new World.Block(Planks_oak, Width * 2 - blockSize, blockSize * 2, blockSize, blockSize * 4);
+		bridge[2] = new World.Block(Planks_oak, Width + blockSize * 5, blockSize * 4, blockSize, blockSize * 2);
+		bridge[3] = new World.Block(Planks_oak, Width + blockSize * 8, blockSize * 5, blockSize, blockSize * 4);
+		bridge[4] = new World.Block(Planks_oak, Width * 2 + blockSize * 4, blockSize * 6, blockSize, blockSize * 4);
+		bridge[5] = new World.Block(Planks_oak, Width * 3 + blockSize, blockSize * 6, blockSize, blockSize * 3);
 
-		emerald[1] = new World.Emerald(Emerald, Width - BlockSize,  BlockSize * 7, BlockSize, BlockSize);
-		emerald[2] = new World.Emerald(Emerald, Width + BlockSize, BlockSize * 7, BlockSize, BlockSize);
-		emerald[3] = new World.Emerald(Emerald, Width + BlockSize * 6, BlockSize * 6, BlockSize, BlockSize);
-		emerald[4] = new World.Emerald(Emerald, Width * 2, BlockSize * 7, BlockSize, BlockSize);
-		emerald[5] = new World.Emerald(Emerald, Width * 2 + Width / 2, BlockSize * 8, BlockSize, BlockSize);
-		emerald[6] = new World.Emerald(Emerald, Width * 3 + BlockSize * 2, BlockSize * 8, BlockSize, BlockSize);
-		emerald[7] = new World.Emerald(Emerald, Width * 3 + BlockSize * 8, BlockSize * 8, BlockSize, BlockSize);
+		emerald[1] = new World.Emerald(Emerald, Width - blockSize,  blockSize * 7, blockSize, blockSize);
+		emerald[2] = new World.Emerald(Emerald, Width + blockSize, blockSize * 7, blockSize, blockSize);
+		emerald[3] = new World.Emerald(Emerald, Width + blockSize * 6, blockSize * 6, blockSize, blockSize);
+		emerald[4] = new World.Emerald(Emerald, Width * 2, blockSize * 7, blockSize, blockSize);
+		emerald[5] = new World.Emerald(Emerald, Width * 2 + Width / 2, blockSize * 8, blockSize, blockSize);
+		emerald[6] = new World.Emerald(Emerald, Width * 3 + blockSize * 2, blockSize * 8, blockSize, blockSize);
+		emerald[7] = new World.Emerald(Emerald, Width * 3 + blockSize * 8, blockSize * 8, blockSize, blockSize);
 
 		//title
 		if (state == State.MAIN_MENU){
@@ -104,19 +108,35 @@ public class WorldOneOne extends Gravity
 	{
 		font3.drawString(Width / 4, Height / 4 -  32, "Welcome to", Color.white);
 		font3.drawString(Width / 4, Height / 4, "Mikecraft, Steve", Color.white);
-		font3.drawString(Width + BlockSize * 3, Height - BlockSize * 7, "Do you know why you're here?", Color.white);
-		font3.drawString(Width * 2 + BlockSize * 8, Height - BlockSize * 8, "My amusement ", Color.white);
+		font3.drawString(Width + blockSize * 3, Height - blockSize * 7, "Do you know why you're here?", Color.white);
+		font3.drawString(Width * 2 + blockSize * 8, Height - blockSize * 8, "My amusement ", Color.white);
 	}
+	private static long lastFrame;
+
+    private static long getTime() 
+    {
+        return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+    }
+
+    private static int getDelta() 
+    {
+//    	Delta (change) in time
+        long currentTime = getTime();
+        int delta = (int) (currentTime - lastFrame);
+        lastFrame = getTime();
+        return delta;
+    }
 	static void logic(int delta)
 	{
-
+		emerald[1].update(delta);
+		emerald[1].setDX(1);
 	}
 
 	@SuppressWarnings("static-access")
 	public static void gravitation() 
 	{		
 		endLogic(0);
-		if ( x >= Width * 4 + BlockSize * 2){
+		if ( x >= Width * 4 + blockSize * 2){
 			dx = 0;
 			level = 2;
 			state = state.STAGE_SWAP;
@@ -133,28 +153,30 @@ public class WorldOneOne extends Gravity
 				e.printStackTrace();
 			}
 			player.x= 100;
-			player.y = BlockSize * 2;
+			player.y = blockSize * 2;
+			enemy.setVisable(false);
+			enemy.setPos(Width * 5 / 2, blockSize * 2);
 			player.dx = 0;
 			player.dy = 0;
-		} if (emeraldOne && y <= BlockSize * 7 && y >= BlockSize * 4.9 && x >= Width - BlockSize && x <= Width){
+		} if (emeraldOne && y <= blockSize * 7 && y >= blockSize * 4.9 && x >= Width - blockSize && x <= Width){
 			score++;
 			emeraldOne = false;
-		} else if (emeraldTwo && y <= BlockSize * 7 && y >= BlockSize * 5 && x >= Width + BlockSize && x <= Width + BlockSize * 2){
+		} else if (emeraldTwo && y <= blockSize * 7 && y >= blockSize * 5 && x >= Width + blockSize && x <= Width + blockSize * 2){
 			score++;
 			emeraldTwo = false;
-		} else if (emeraldThree && y <= BlockSize * 6 && y >= BlockSize * 4 && x >= Width + BlockSize * 6 && x <= Width + BlockSize * 7){
+		} else if (emeraldThree && y <= blockSize * 6 && y >= blockSize * 4 && x >= Width + blockSize * 6 && x <= Width + blockSize * 7){
 			score++;
 			emeraldThree = false;
-		} else if (emeraldFour && y <= BlockSize * 7 && y >= BlockSize * 5 && x >= Width * 2 && x <= Width * 2 + BlockSize){
+		} else if (emeraldFour && y <= blockSize * 7 && y >= blockSize * 5 && x >= Width * 2 && x <= Width * 2 + blockSize){
 			score++;
 			emeraldFour = false;
-		} else if (emeraldFive && y <= BlockSize * 6 && y >= BlockSize * 4 && x >= Width * 2 + BlockSize * 5 && x <= Width * 2 + BlockSize * 6){
+		} else if (emeraldFive && y <= blockSize * 6 && y >= blockSize * 4 && x >= Width * 2 + blockSize * 5 && x <= Width * 2 + blockSize * 6){
 			score++;
 			emeraldFive = false;
-		} else if (emeraldSix && y <= BlockSize * 6 && y >= BlockSize * 5 && x >= Width * 3 + BlockSize * 1 && x <= Width * 4 + BlockSize * 2){
+		} else if (emeraldSix && y <= blockSize * 6 && y >= blockSize * 5 && x >= Width * 3 + blockSize * 1 && x <= Width * 4 + blockSize * 2){
 			score++;
 			emeraldSix = false;
-		} else if (emeraldSeven && y <= BlockSize * 6 && y >= BlockSize * 5 && x >= Width * 3 + BlockSize * 5 && x <= Width * 4 + BlockSize * 6){
+		} else if (emeraldSeven && y <= blockSize * 6 && y >= blockSize * 5 && x >= Width * 3 + blockSize * 5 && x <= Width * 4 + blockSize * 6){
 			score++;
 			emeraldSeven = false;
 		} 

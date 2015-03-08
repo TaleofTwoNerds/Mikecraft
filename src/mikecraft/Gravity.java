@@ -9,21 +9,30 @@ import org.lwjgl.opengl.Display;
 
 public class Gravity extends Player {
 	
-	public static boolean emeraldOne = true, emeraldTwo = true, 
+	public static boolean enemyHit,enemyWasHit = false,emeraldOne = true, emeraldTwo = true, 
 			emeraldThree = true, emeraldFour = true, emeraldFive = true, 
 			emeraldSix = true, emeraldSeven = true;
 	public static int score = 0;
 	
 	public static void detection(double x, double y, double width, double height)
 	{
-		double yBottom = y-BlockSize * .25, yTop = y+BlockSize*.25;
+		double yBottom = y-blockSize * .25, yTop = y+blockSize*.25;
 		if(player.getY() <= y && player.getY() >= yBottom && player.getX() >= x-SteveX && player.getX() <= x+width+SteveX)
 		{
 			if(player.getDY() <= 0 && player.getY() >= yBottom)
 			{
 				dy = 0;
-				Player.y = y;
+				player.y = y;
 				movement();
+			}
+		}
+		if(enemy.getY() <= y && enemy.getY() >= yBottom && enemy.getX() >= x-SteveX && enemy.getX() <= x+width+SteveX)
+		{
+			if(enemy.getDY() <= 0 && enemy.getY() >= yBottom)
+			{
+				enemy.dy = 0;
+				enemy.y = y;
+				eMovement(enemy.getBoundLeft(), enemy.getBoundRight());
 			}
 		}
 	}
@@ -31,7 +40,7 @@ public class Gravity extends Player {
 	public static boolean detectionTF(double x, double y, double width)
 	{
 		boolean truth = false;
-		double yBottom = y-BlockSize * .25;
+		double yBottom = y-blockSize * .25;
 		if(player.getY() <= y && player.getY() >= yBottom && player.getX() >= x-SteveX && player.getX() <= x+width+SteveX)
 		{
 			if(player.getDY() <= 0 && player.getY() >= yBottom)
@@ -66,10 +75,28 @@ public class Gravity extends Player {
 			x = SteveX;
 		}
 	}
+	public static void eMovement(double x,double x2)
+	{
+		if (enemy.x<=x+SteveX){
+			enemy.dx = Width /200;
+			enemy.x = x+SteveX;
+		} if(enemy.x>=x2-SteveX){
+			enemy.dx = -Width/200;
+			enemy.x = x2-SteveX;
+		}
+		if (enemy.x <= SteveX)
+		{
+			if (enemy.dx <= 0)
+			{
+				enemy.dx = 0;
+			}
+			enemy.x = SteveX;
+		}
+	}
 	
 	public static void endLogic(double bottom)
 	{
-		if (y <= bottom)
+		if (y <= bottom || (player.x >= enemy.x - SteveX * 2 && x <= enemy.x + SteveX * 2 && y <= enemy.y + blockSize / 2 && dy >= -1))
 		{
 			if (MainGame.lives >= 1)
 			{
@@ -80,7 +107,23 @@ public class Gravity extends Player {
 			}
 			state = State.STAGE_SWAP;
 			Player.x = 100;
-			Player.y = BlockSize * 2;
+			Player.y = blockSize * 2;
+		}
+		if(player.x >= enemy.x - SteveX * 2 && x <= enemy.x + SteveX * 2 && y <= enemy.y + blockSize / 2 && dy <= 0 && enemy.toDraw)
+		{
+			enemyHit = true;
+			if(enemyHit && !enemyWasHit)
+			{
+				player.dy = 0;
+			} else {
+				player.dy = -4;
+			}
+			enemy.setVisable(false);
+			enemy.setPos(0,0);
+			score++;
+			score++;
+			score++;
+			enemyWasHit = true;
 		}
 	}
 	
@@ -92,7 +135,6 @@ public class Gravity extends Player {
 				x+=dx;
 				y+=dy;
 				dy -= .4;
-				World.chooseLevel();
 				if(Keyboard.isKeyDown(Keyboard.KEY_A)  || Keyboard.isKeyDown(Keyboard.KEY_LEFT))
 				{
 					dx = -Width / 100;
@@ -102,6 +144,26 @@ public class Gravity extends Player {
 				}
 				jumpWasPressed = jumpPressed;
 				jumpPressed = Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_UP);		
+			}
+		}
+	}
+	public static void enemyLogic()
+	{
+		if (enemy.y >= 0){
+			if (state == State.GAME)
+			{
+				enemy.x+=enemy.dx;
+				enemy.y+=enemy.dy;
+				enemy.dy -= .4;
+				if(Keyboard.isKeyDown(Keyboard.KEY_F))
+				{
+					enemy.dx = -Width / 100;
+				} if(Keyboard.isKeyDown(Keyboard.KEY_H))
+				{
+					enemy.dx = Width / 100;
+				}
+				enemy.jumpWasPressed = enemy.jumpPressed;
+				enemy.jumpPressed = Keyboard.isKeyDown(Keyboard.KEY_T);		
 			}
 		}
 	}

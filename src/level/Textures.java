@@ -20,13 +20,14 @@ public class Textures extends MainGame{
 		try 
 		{
 			//characters
-            if(MainGame.Char == 1){PlayerSkin = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/Steve1-3.png")));}
-            SteveChar = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/Steve1-3.png")));
-            if(MainGame.Char == 2){PlayerSkin = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/Mike1-2.png")));}
-            MikeChar = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/Mike1-2.png")));
-	        if(MainGame.Char == 3){PlayerSkin = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/SteveSideXPos.png")));}
-	        MineChar = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/SteveSideXPos.png")));
-	        
+            SteveChar = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/William1-1.png")));
+            MikeChar = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/Mike1-4.png")));
+            MineChar = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/SteveSideXPos.png")));
+            if(MainGame.Char == 2){PlayerSkin = MikeChar;;}
+            else if(MainGame.Char == 3){PlayerSkin = MineChar;}
+            else {PlayerSkin = SteveChar;}
+	        Steve2 = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/char/SteveNew1.png")));
+            
 	        //environment
 	        Sky = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/air.png")));
             Grass = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/blocks/grass_side.png")));

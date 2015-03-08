@@ -9,7 +9,11 @@ import entity.Entity;
 
 public class Player {
 	
-	public static double x, y, z, dx, dy;
+	public static double x;
+	public static double y;
+	public static double z;
+	public static double dx;
+	public static double dy;
 	public static boolean jumpPressed, jumpWasPressed, end = false;
 	public static int SteveX, SteveY;	
 	protected static Rectangle hitbox = new Rectangle();
@@ -17,7 +21,7 @@ public class Player {
 	
 	public Player(){
 		x = 100;
-		y = BlockSize * 2;
+		y = blockSize * 2;
 		dx = 4;
 	}
 
@@ -33,14 +37,14 @@ public class Player {
 		glPushMatrix();
 		
 		if (Char == 1){
-			SteveY = BlockSize * 2;
-			SteveX = BlockSize / 2;
+			SteveY = blockSize * 2;
+			SteveX = blockSize / 2;
 		} else if (Char == 2) {
-			SteveY = BlockSize;
-			SteveX = BlockSize / 2;
+			SteveY = blockSize;
+			SteveX = blockSize / 2;
 		} else {
-			SteveY = BlockSize * 2;
-			SteveX = BlockSize / 4;
+			SteveY = blockSize * 2;
+			SteveX = blockSize / 4;
 		}
 		
 		Gravity.logic();
@@ -70,9 +74,9 @@ public class Player {
     		glTexCoord2f(1, 1);
     		glVertex2d(SteveX, 0);
     		glTexCoord2f(1, 0);
-    		glVertex2d(SteveX, -SteveY);
+    		glVertex2d(SteveX,-SteveY);
     		glTexCoord2f(0, 0);
-    		glVertex2d(-SteveX, -SteveY);
+    		glVertex2d(-SteveX,-SteveY);
     		glEnd();
         }
 		

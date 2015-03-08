@@ -1,14 +1,18 @@
 package level;
 
+import static mikecraft.MainGame.Height;
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTexCoord2d;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL11.glTranslated;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 import mikecraft.Gravity;
 import mikecraft.MainGame;
@@ -24,7 +28,6 @@ public class World extends MainGame
 	{
 		if (level == 1){
 			WorldOneOne.main();
-			WorldOneOne.logic(getDelta());
 		} else if (level == 2){
 			WorldOneTwo.main();
 			WorldOneTwo.logic(getDelta());
@@ -65,21 +68,26 @@ public class World extends MainGame
 		@Override
 		public void draw() 
 		{
+			glPushMatrix();
 			if(true){
-				y = Height - y;
+				y = Height - y;				
+//				glTranslated(x, y, 0);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 				t.bind();
 				glBegin(GL_QUADS);
-				glTexCoord2f(0, 0);
+				glTexCoord2f(0, 1);
 				glVertex2d(x, y + height); // Upper-left
-				glTexCoord2f(1, 0);
+				glTexCoord2f(1, 1);
 				glVertex2d(x + width, y + height); // Upper-right
-				glTexCoord2f(1, -1);
+				glTexCoord2f(1, 0);
 				glVertex2d(x + width, y); // Bottom-right
-				glTexCoord2f(0, -1);
+				glTexCoord2f(0, 0);
 				glVertex2d(x, y); // Bottom-left
 				glEnd();
 			}
+			glPopMatrix();
+			dx=0;
+			dy=0;
 		}
 	}
     public static class Block extends AbstractMoveableEntity 
@@ -99,11 +107,11 @@ public class World extends MainGame
 			glBegin(GL_QUADS);
 			glTexCoord2f(0, 0);
         	glVertex2d(x, y + height); // Upper-left
-        	glTexCoord2d(width / 64, 0);
+        	glTexCoord2d(width / blockSize, 0);
         	glVertex2d(x + width, y + height); // Upper-right
-        	glTexCoord2d(width / 64, -(height / 64));
+        	glTexCoord2d(width / blockSize, -height/blockSize);
         	glVertex2d(x + width, y); // Bottom-right
-        	glTexCoord2d(0, -(height / 64));
+        	glTexCoord2d(0, -height/blockSize);
         	glVertex2d(x, y); // Bottom-left
         	glEnd();
 		}	
@@ -124,11 +132,11 @@ public class World extends MainGame
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			t.bind();
 			glBegin(GL_QUADS);
-			glTexCoord2d(0, height / 64);
+			glTexCoord2d(0, height / blockSize);
         	glVertex2d(x, y + height); // Upper-left
-        	glTexCoord2d(width / 64, height / 64);
+        	glTexCoord2d(width / blockSize, height / blockSize);
         	glVertex2d(x + width, y + height); // Upper-right
-        	glTexCoord2d(width / 64, 0);
+        	glTexCoord2d(width / blockSize, 0);
         	glVertex2d(x + width, y); // Bottom-right
         	glTexCoord2d(0, 0);
         	glVertex2d(x, y); // Bottom-left
@@ -152,25 +160,25 @@ public class World extends MainGame
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			t.bind();
 			glBegin(GL_QUADS);
-			glTexCoord2d(0, 0);
+			glTexCoord2d(0,  height / blockSize / 2);
         	glVertex2d(x , y + height); // Upper-left
-        	glTexCoord2d(width / 64, 0);
+        	glTexCoord2d(width / blockSize,  height / blockSize / 2);
         	glVertex2d(x + width, y + height); // Upper-right
-        	glTexCoord2d(width / 64, -1);
+        	glTexCoord2d(width / blockSize, 0);
         	glVertex2d(x + width, y + height / 2); // Bottom-right
-			glTexCoord2d(0, -1);
+			glTexCoord2d(0, 0);
         	glVertex2d(x, y + height / 2); // Bottom-left
         	
         	glEnd();glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			Grass.bind();
 			glBegin(GL_QUADS);
-			glTexCoord2d(0, 0);
+			glTexCoord2d(0, height / blockSize / 2);
         	glVertex2d(x, y + height/ 2); // Upper-left
-        	glTexCoord2d(width / 64, 0);
+        	glTexCoord2d(width / blockSize, height / blockSize / 2);
         	glVertex2d(x + width, y + height / 2); // Upper-right
-        	glTexCoord2d(width / 64, -1);
+        	glTexCoord2d(width / blockSize, 0);
         	glVertex2d(x + width, y); // Bottom-right
-			glTexCoord2d(0, -1);
+			glTexCoord2d(0, 0);
         	glVertex2d(x, y); // Bottom-left
         	glEnd();
 			//glRectd(x, y, x + width, y + height);
@@ -194,11 +202,11 @@ public class World extends MainGame
 			glBegin(GL_QUADS);
 			glTexCoord2f(0, 0);
         	glVertex2d(x, y + height); // Upper-left
-        	glTexCoord2d(width / 64, 0);
+        	glTexCoord2d(width / blockSize, 0);
         	glVertex2d(x + width, y + height); // Upper-right
-        	glTexCoord2d(width / 64, -(height / 64));
+        	glTexCoord2d(width / blockSize, -height / blockSize);
         	glVertex2d(x + width, y); // Bottom-right
-        	glTexCoord2d(0, -(height / 64));
+        	glTexCoord2d(0, -height / blockSize);
         	glVertex2d(x, y); // Bottom-left
         	glEnd();
 		}

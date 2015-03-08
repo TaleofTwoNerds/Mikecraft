@@ -44,28 +44,30 @@ public class WorldOneTwo extends Gravity
     }
     
 	public static void drawBackground() 
-	{
+	{		
+		enemy.setBounds(Width * 5 / 2, Width * 4 - blockSize * 2);
+
 		back = new World.Block(Sky,0, 0, -Height * 2, Width * 8);
-		ground[1] = new World.Ground(Dirt,0, BlockSize * 2, BlockSize * 2, Width * 2 - BlockSize * 2);
-		ground[2] = new World.Ground(Dirt, Width * 2 + BlockSize * 3, BlockSize * 2, BlockSize * 2, Width * 2);
-		ground[3] = new World.Ground(Dirt, Width * 4 + BlockSize * 6, BlockSize * 2, BlockSize * 2, Width * 3);
-		hill[1] = new World.Hill(Grass, Width * 2 + BlockSize * 9, BlockSize * 3, BlockSize, BlockSize * 5);
-		hill[2] = new World.Hill(Grass, Width * 3, BlockSize * 4, BlockSize, BlockSize * 4);
-		hill[3] = new World.Hill(Grass, Width * 3 + BlockSize, BlockSize * 5, BlockSize, BlockSize * 3);
-		hill[4] = new World.Hill(Grass, Width * 3 + BlockSize * 2, BlockSize * 6, BlockSize, BlockSize * 2);
+		ground[1] = new World.Ground(Dirt,0, blockSize * 2, blockSize * 2, Width * 2 - blockSize * 2);
+		ground[2] = new World.Ground(Dirt, Width * 2 + blockSize * 3, blockSize * 2, blockSize * 2, Width * 2 - blockSize * 4);
+		ground[3] = new World.Ground(Dirt, Width * 4 + blockSize * 6, blockSize * 2, blockSize * 2, Width * 3);
+		hill[1] = new World.Hill(Grass, Width * 2 + blockSize * 9, blockSize * 3, blockSize, blockSize * 5);
+		hill[2] = new World.Hill(Grass, Width * 3, blockSize * 4, blockSize, blockSize * 4);
+		hill[3] = new World.Hill(Grass, Width * 3 + blockSize, blockSize * 5, blockSize, blockSize * 3);
+		hill[4] = new World.Hill(Grass, Width * 3 + blockSize * 2, blockSize * 6, blockSize, blockSize * 2);
 		
-		brick[1] = new World.Block(Brick, BlockSize * 8, BlockSize * 6, BlockSize, BlockSize);
-		brick[2] = new World.Block(Brick, BlockSize * 10, BlockSize * 6, BlockSize, BlockSize);
-		brick[3] = new World.Block(Brick, Width + BlockSize * 2, BlockSize * 6, BlockSize, BlockSize);
-		brick[4] = new World.Block(Brick, Width + BlockSize * 4, BlockSize * 6, BlockSize, BlockSize);
+		brick[1] = new World.Block(Brick, blockSize * 8, blockSize * 6, blockSize, blockSize);
+		brick[2] = new World.Block(Brick, blockSize * 10, blockSize * 6, blockSize, blockSize);
+		brick[3] = new World.Block(Brick, Width + blockSize * 2, blockSize * 6, blockSize, blockSize);
+		brick[4] = new World.Block(Brick, Width + blockSize * 4, blockSize * 6, blockSize, blockSize);
 		
-		bridge[1] = new World.Block(Planks_oak, Width * 3 + BlockSize * 8, BlockSize * 7, BlockSize, BlockSize * 4);
-		bridge[2] = new World.Block(Planks_oak, Width * 4 + BlockSize * 8, BlockSize * 7, BlockSize, BlockSize * 4);
+		bridge[1] = new World.Block(Planks_oak, Width * 3 + blockSize * 8, blockSize * 7, blockSize, blockSize * 4);
+		bridge[2] = new World.Block(Planks_oak, Width * 4 + blockSize * 8, blockSize * 7, blockSize, blockSize * 4);
         
-		gold[1] = new World.Block(Gold, Width + BlockSize, BlockSize * 6, BlockSize, BlockSize);
-        stone[1] = new World.Block(Stone, Width * 3 + BlockSize * 4, BlockSize * 6, BlockSize * 4, BlockSize);
+		gold[1] = new World.Block(Gold, Width + blockSize, blockSize * 6, blockSize, blockSize);
+        stone[1] = new World.Block(Stone, Width * 3 + blockSize * 4, blockSize * 6, blockSize * 4, blockSize);
         
-        emerald[1] = new World.Emerald(Emerald, Width + BlockSize, BlockSize * 6 + BlockSize / 6, BlockSize, BlockSize);
+        emerald[1] = new World.Emerald(Emerald, Width + blockSize, blockSize * 6 + blockSize / 6, blockSize, blockSize);
 	}
 	static void render() 
 	{
@@ -94,9 +96,9 @@ public class WorldOneTwo extends Gravity
 	@SuppressWarnings("deprecation")
 	private static void fontRender()
 	{
-		font3.drawString(BlockSize, Height / 4 -  32, "You're not bad...", Color.white);
-		font3.drawString(BlockSize, Height / 4, "Let's turn it up a notch", Color.white);
-		font3.drawString(Width * 5, Height - BlockSize * 4, "Missed it", Color.white);
+		font3.drawString(blockSize, Height / 4 -  32, "You're not bad...", Color.white);
+		font3.drawString(blockSize, Height / 4, "Let's turn it up a notch", Color.white);
+		font3.drawString(Width * 5, Height - blockSize * 4, "Missed it", Color.white);
 	}
 	
 	static void logic(int delta)
@@ -130,7 +132,7 @@ public class WorldOneTwo extends Gravity
 				e.printStackTrace();
 			}
 			Player.x= 100;
-			Player.y = BlockSize * 2;
+			Player.y = blockSize * 2;
 			player.dx = 0;
 			player.dy = 0;
 		}
