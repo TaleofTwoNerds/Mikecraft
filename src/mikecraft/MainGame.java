@@ -33,7 +33,11 @@ import org.newdawn.slick.util.ResourceLoader;
 public class MainGame 
 {	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public static final String ver = "PRE 1.3";
+=======
+	public static final String ver = "PRE 1.2";
+>>>>>>> FETCH_HEAD
 =======
 	public static final String ver = "PRE 1.2";
 >>>>>>> FETCH_HEAD
