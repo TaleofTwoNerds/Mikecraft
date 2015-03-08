@@ -32,7 +32,11 @@ import org.newdawn.slick.util.ResourceLoader;
 @SuppressWarnings("deprecation")
 public class MainGame 
 {	
+<<<<<<< HEAD
 	public static final String ver = "PRE 1.3";
+=======
+	public static final String ver = "PRE 1.2";
+>>>>>>> FETCH_HEAD
 	public static int Height = 480,Width = 640,Char = 1,levelTwo,lives = 3,difficultyi = 3;
 	public static int nHeight = -Height;
 	public static String levelName[] = new String[12],charName[] = new String[4],
@@ -183,9 +187,9 @@ public class MainGame
 		int disXDec = (int) Math.ceil((player.x / blockSize) + 9 - disX * 10);
 		int disY = (int) player.y / blockSize;
 //		Game Title
-//		Display.setTitle("Mikecraft " + ver + " | " + Gravity.score + " | " + lives);
+		Display.setTitle("Mikecraft " + ver + " | " + Gravity.score + " | " + lives);
 //		Dev Title
-		Display.setTitle("Mikecraft DEV "+ver+" | " + level + " | " + (disX - 1) + "." + disXDec + " , "+ disY + " | " + Gravity.score + " | " + lives);
+//		Display.setTitle("Mikecraft DEV "+ver+" | " + level + " | " + (disX - 1) + "." + disXDec + " , "+ disY + " | " + Gravity.score + " | " + lives);
 	}
 	private static void setCamera() 
 	{
