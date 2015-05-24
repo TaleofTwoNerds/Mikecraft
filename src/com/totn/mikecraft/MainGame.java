@@ -1,18 +1,8 @@
 package com.totn.mikecraft;
 
-import static com.totn.mikecraft.MainGame.Height;
-import static com.totn.mikecraft.MainGame.Width;
-import static com.totn.mikecraft.MainGame.blockSize;
-import static com.totn.mikecraft.MainGame.difficultyi;
-import static com.totn.mikecraft.MainGame.font3;
-import static com.totn.mikecraft.MainGame.lives;
 import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.Font;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.lwjgl.LWJGLException;
@@ -23,7 +13,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import com.totn.entity.Enemy;
@@ -31,21 +20,20 @@ import com.totn.entity.Player;
 import com.totn.level.Textures;
 import com.totn.level.World;
 
-@SuppressWarnings("deprecation")
 public class MainGame 
 {	
 //	Game Information
 	public static final String ver = "PRE 1.3",title="Mikecraft";
-	public static final String themeSong = "dovakiin.wav";
+	public static final String themeSong = "dovakiin.wav",levelSong = "clock_town.wav";
 	
 	public static int Height = 480,Width = 640,Char = 1,lives = 3,difficultyi = 3;
 	public static int nHeight = -Height;
 	public static String levelName[] = new String[12],charName[] = new String[4],
 			difficulty[] = new String[4];
 	public static final int blockSize = Width / 10;
-	public static double level = 1,volume=80;
+	public static double level = 1,volume=60;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
-			developmental=true;
+			developmental=true,goToStageSwap;
 	
 //	Game Entities
 	public static Player player;
@@ -57,7 +45,7 @@ public class MainGame
 	public static Texture Sky,Dirt,Brick,Planks_oak,Tnt,
 		Gold,Redstone,Wheat7,Flag,Emerald,Grass,Stone;
 	public static Texture SteveChar,MikeChar,MineChar,PlayerSkin,Steve2;
-	public static Texture Title,TitleBack,Button[] = new Texture[5];
+	public static Texture Title,TitleBack,Button[] = new Texture[5],button,buttonHover;
 
     public static enum State 
     {
@@ -84,42 +72,42 @@ public class MainGame
 	
 //	deltaTextures
 //	Basically the dynamic textures
-	public static void dT() 
-	{	
-		try 
-		{
-			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height - 116 && Mouse.getY() <= Height - 68)
-			{			
-				Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
-			} else {
-				Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
-			}
-			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 && Mouse.getY() <= Height / 2 + 44)
-			{			
-				Button[2] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
-			} else {
-				Button[2] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
-			}
-			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 + 60 && Mouse.getY() <= Height / 2 + 108)
-			{			
-				Button[3] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
-			} else {
-				Button[3] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
-			}
-			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 - 68 && Mouse.getY() <= Height / 2 - 20)
-			{			
-				Button[4] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
-			} else {
-				Button[4] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
-			}
-		} catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
+//	public static void dT() 
+//	{	
+//		try 
+//		{
+//			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height - 116 && Mouse.getY() <= Height - 68)
+//			{			
+//				Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
+//			} else {
+//				Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+//			}
+//			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 && Mouse.getY() <= Height / 2 + 44)
+//			{			
+//				Button[2] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
+//			} else {
+//				Button[2] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+//			}
+//			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 + 60 && Mouse.getY() <= Height / 2 + 108)
+//			{			
+//				Button[3] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
+//			} else {
+//				Button[3] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+//			}
+//			if(Mouse.getX() >= Width / 2 - 200 && Mouse.getX() <= Width / 2 + 183 && Mouse.getY() >= Height / 2 - 68 && Mouse.getY() <= Height / 2 - 20)
+//			{			
+//				Button[4] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
+//			} else {
+//				Button[4] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+//			}
+//		} catch (FileNotFoundException e)
+//		{
+//			e.printStackTrace();
+//		} catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+//	}
 //	Initialize the fonts
 	public static void fontInit(int size)
 	{
@@ -158,34 +146,46 @@ public class MainGame
 	{
 //		Sets up the display if it's not already set
 		if(!display){setUpDisplay(); display = true;}
+		
 //		Initializes the fonts
 		fontInit(24);
+		
 //		Creates the new entities
 		player = new Player();
 		enemy = new Enemy();
+		
 //		Initialize all the textures to be used later in the game
 		Textures.t();
+		
 //		Theme song
-		MakeSound.playSound(themeSong);
+		MakeSound.initSounds();
+		
 		while(!Display.isCloseRequested())
 		{		
+			System.out.println(MakeSound.themeSound.isPlaying + " | " + MakeSound.levelSound.isPlaying);
 //			Check whether stages need to be changed or not
 			checkInput();	
 			setTitle();
 			setCamera();
-//			During gameplay these run
+			if(state == State.MAIN_MENU||state==State.OPTIONS)
+			{
+				MakeSound.themeSound.play();
+			} else {
+				MakeSound.themeSound.pause();
+			}
+//			During game play these run
 			if(state == State.GAME)
 			{
-				World.chooseLevel();
-				if(enemy.toDraw){enemy.draw();}
-				player.draw();
+				inGame();
 			}
+			
 //			Otherwise the GUI needs to load
 			else
 			{
 				GUI.drawBackground();	
-				dT();
+//				dT();
 			}
+			
 //			Update and Sync
 			Display.update();
 			Display.sync(60);
@@ -193,16 +193,23 @@ public class MainGame
         Display.destroy();
         System.exit(1);
 	}
+	static void inGame()
+	{
+		World.chooseLevel();
+		if(enemy.toDraw){enemy.draw();}
+		player.draw();
+	}
 	static void setTitle()
 	{   
 //		Find the player's position
-		int disX = (int) (player.x + Width) / Width;
-		int disXDec = (int) Math.ceil((player.x / blockSize) + 9 - disX * 10);
-		int disY = (int) player.y / blockSize;
+		int disX = (int) (Player.x + Width) / Width;
+		int disXDec = (int) Math.ceil((Player.x / blockSize) + 9 - disX * 10);
+		int disY = (int) Player.y / blockSize;
+		String mousePosition = "Mouse X: " + Mouse.getX() + " | Mouse Y: " + Mouse.getY();
 //		Game Title
 		if(!developmental){Display.setTitle(title + " " + ver + " | " + Gravity.score + " | " + lives);}
 //		Dev Title
-		else {Display.setTitle(title + " DEV "+ver+" | " + level + " | " + (disX - 1) + "." + disXDec + " , "+ disY + " | " + Gravity.score + " | " + lives);}
+		else {Display.setTitle(title + " DEV "+ver+" | " + level + " | " + (disX - 1) + "." + disXDec + " , "+ disY + " | Score: " + Gravity.score + " | Lives: " + lives + " | " + mousePosition);}
 	}
 	static void setCamera() 
 	{
@@ -331,6 +338,11 @@ public class MainGame
 				player.y = blockSize * 2;
 				state = State.MAIN_MENU;
 				GUI.drawBackground();
+			}
+			if(goToStageSwap)
+			{
+				state = State.STAGE_SWAP;
+				goToStageSwap=false;
 			}
 		default:
 			break;

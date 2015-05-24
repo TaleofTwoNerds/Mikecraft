@@ -22,6 +22,12 @@ public class WorldOneOne extends Gravity
 
 	public static void main()
 	{
+//		Sound is put into levels individually to allow changing of the individual songs.
+		System.out.println(MainGame.state);
+		if(MainGame.state==State.GAME)
+		{
+			MakeSound.levelSound.play();
+		}
 		drawBackground();
 		logic(getDelta());
 		gravitation();	
@@ -135,6 +141,8 @@ public class WorldOneOne extends Gravity
 	}
 
 	@SuppressWarnings("static-access")
+//	basically the logic of the level. Name gravitation because it used to
+//	be the collision detection method before I got smart.
 	public static void gravitation() 
 	{		
 		endLogic(0);
@@ -142,6 +150,7 @@ public class WorldOneOne extends Gravity
 			dx = 0;
 			level = 2;
 			MakeSound.playSound("course_clear.wav");
+			MakeSound.levelSound.pause();
 			state = state.STAGE_SWAP;
 			Gravity.emeraldOne = true;
 			Gravity.emeraldTwo = true;

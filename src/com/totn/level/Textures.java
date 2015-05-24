@@ -45,6 +45,8 @@ public class Textures extends MainGame{
             //menus
             Title = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/Mikecraft.png")));
             Button[1] = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+            button = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/button.png")));
+            buttonHover = TextureLoader.getTexture("PNG", new FileInputStream(new File("res/images/buttonHover.png")));
             Button[2] = Button[1];
             Button[3] = Button[2];
             Button[4] = Button[3];

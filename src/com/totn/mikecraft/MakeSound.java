@@ -20,13 +20,80 @@ import com.totn.mikecraft.MainGame.State;
 public class MakeSound 
 {
 	private static double vLevel = -80;
+	public static Sound levelSound,themeSound,menuOption,gameOver,lifeLost,jump,stomp,
+		worldClear,courseClear,coin;
 	
+	public static void initSounds()
+	{		
+		levelSound = new Sound(MainGame.levelSong);
+		themeSound = new Sound(MainGame.themeSong);
+	}
 	public static void volumeControl()
 	{
 		if(MainGame.volume>=-60){vLevel = MainGame.volume - 80;}
 		else{vLevel=0;}
 	}
-    public static void playSound(String filename)
+	public static class Sound
+	{
+        AudioInputStream stream;
+        AudioFormat format;
+        DataLine.Info info;
+        static Clip clip;
+        String filepath;
+		boolean isPlaying;
+        
+		public Sound(String filename)
+		{			
+			filename = "res/sound/" + filename;
+
+			System.out.println(filename);
+	        volumeControl();
+	    	
+	        try 
+	        {
+				stream = AudioSystem.getAudioInputStream(new File(filename));
+		        format = stream.getFormat();
+		        info = new DataLine.Info(Clip.class, format);
+		        clip = (Clip) AudioSystem.getLine(info);
+		        clip.open(stream);
+	        	FloatControl gainControl = 
+	        			(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+	        	gainControl.setValue((float) vLevel);
+	        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) 
+	        {
+				e.printStackTrace();
+			}
+		}
+		public void play()
+		{
+			if(!isPlaying)
+			{
+				clip.start();
+				isPlaying =true;
+			}
+		}
+		public void pause()
+		{
+			if(isPlaying)
+			{
+				clip.stop();
+				isPlaying= false;
+			}
+		}
+		public void restart()
+		{
+			if(isPlaying)
+			{
+				clip.stop();
+				isPlaying= false;
+			} if (!isPlaying)
+			{
+				clip.start();
+				isPlaying= true;
+			}
+		}
+	}
+	public static void playSound(String filename)
     {
     	filename = "res/sound/" + filename;
         AudioInputStream stream;
@@ -35,9 +102,7 @@ public class MakeSound
         Clip clip;
        
         volumeControl();
-
-    	boolean isPlaying;
-    	
+        
         try 
         {
 			stream = AudioSystem.getAudioInputStream(new File(filename));
@@ -45,41 +110,12 @@ public class MakeSound
 	        info = new DataLine.Info(Clip.class, format);
 	        clip = (Clip) AudioSystem.getLine(info);
 	        clip.open(stream);
-	        isPlaying=true;
         	FloatControl gainControl = 
         			(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         	gainControl.setValue((float) vLevel);
 	        clip.start();
-	        if(filename.contains("dovakiin"))
-	        {
-	        	while(MainGame.state==State.MAIN_MENU||MainGame.state==State.OPTIONS)
-	        	{
-	        		MainGame.checkInput();	
-	        		MainGame.setTitle();
-	        		MainGame.setCamera();
-	    			if(MainGame.state == State.GAME)
-	    			{
-	    				World.chooseLevel();
-	    				if(MainGame.enemy.toDraw){MainGame.enemy.draw();}
-	    				MainGame.player.draw();
-	    			}
-	    			else
-	    			{
-	    				GUI.drawBackground();	
-	    				MainGame.dT();
-	    			}
-//	    			System.out.println(player.x + " | " + enemy.x);
-//	    			System.out.println("Mouse x: " + Mouse.getX() + " Mouse y: " + Mouse.getY());
-	    			Display.update();
-	    			Display.sync(60);
-	        	}
-	        	System.out.println(filename);
-	        	System.out.println("While Ended");
-	        	clip.stop();
-	        }
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) 
         {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
