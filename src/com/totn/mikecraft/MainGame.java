@@ -15,6 +15,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
 
+import com.totn.audio.MakeSound;
 import com.totn.entity.Enemy;
 import com.totn.entity.Player;
 import com.totn.entity.Button;
@@ -35,7 +36,7 @@ public class MainGame
 	public static final int blockSize = Width / 10;
 	public static double level = 1,volume=60;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
-			inDevelopment=false, fullscreen = false,paused = false;
+			inDevelopment=true, fullscreen = false,paused = false;
 	
 //	Game Entities
 	public static Player player;
@@ -142,16 +143,11 @@ public class MainGame
 		while(!Display.isCloseRequested())
 		{
 //			System.out.println(MakeSound.themeSound.isPlaying + " | " + MakeSound.levelSound.isPlaying);
-//			Check wheth er stages need to be changed or not
+//			Check whether stages need to be changed or not
 			Menus.checkInput();	
 			setTitle();
 			setCamera();
-			if(state == State.MAIN_MENU||state==State.OPTIONS)
-			{
-				MakeSound.themeSound.play();
-			} else {
-				MakeSound.themeSound.pause();
-			}
+			
 //			During game play these run
 			if(state == State.GAME && !paused)
 			{

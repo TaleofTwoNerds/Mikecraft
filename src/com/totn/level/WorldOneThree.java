@@ -2,8 +2,8 @@
 
 import static com.totn.mikecraft.MainGame.*;
 
+import com.totn.audio.MakeSound;
 import com.totn.mikecraft.Physics;
-import com.totn.mikecraft.MakeSound;
 import com.totn.mikecraft.MainGame.State;
 
 public class WorldOneThree extends Physics 
@@ -72,16 +72,12 @@ public class WorldOneThree extends Physics
 		endLogic(0);
 		if (player.getX() >= Width * 9)
 		{
-			MakeSound.playSound("course_clear.wav");
 			level = 4;
+			MakeSound.clockTown.stop();
+			MakeSound.courseClear.play();
+
 			state = State.STAGE_SWAP;
-			Physics.emeraldOne = true;
-			Physics.emeraldTwo = true;
-			Physics.emeraldThree = true;
-			Physics.emeraldFour = true;
-			Physics.emeraldFive = true;
-			Physics.emeraldSix = true;
-			Physics.emeraldSeven = true;
+			
 			player.setLocation(100, blockSize * 2);
 			player.setDX(0);
 			player.setDY(0);

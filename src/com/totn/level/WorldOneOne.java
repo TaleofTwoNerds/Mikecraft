@@ -3,9 +3,9 @@ package com.totn.level;
 import static com.totn.mikecraft.MainGame.*;
 import static org.lwjgl.opengl.GL11.*;
 
+import com.totn.audio.MakeSound;
 import com.totn.mikecraft.MainGame;
 import com.totn.mikecraft.Physics;
-import com.totn.mikecraft.MakeSound;
 
 public class WorldOneOne extends Physics
 {
@@ -19,9 +19,9 @@ public class WorldOneOne extends Physics
 	public static void main()
 	{
 //		Sound is put into levels individually to allow changing of the individual songs.
-		if(MainGame.state==State.GAME)
+		if(!MakeSound.clockTown.isPlaying())
 		{
-			MakeSound.levelSound.play();
+//			MakeSound.clockTown.play();
 		}
 		drawBackground();
 		gravitation();	
@@ -112,11 +112,12 @@ public class WorldOneOne extends Physics
 		if (player.getX() >= worldWidth)
 		{
 			level = 2;
-			MakeSound.playSound("course_clear.wav");
-			MakeSound.levelSound.pause();
+			MakeSound.clockTown.stop();
+			MakeSound.courseClear.play();
+
 			
 			state = state.STAGE_SWAP;
-			
+
 			player.setX(100);
 			player.setY(blockSize * 2);
 			player.setDX(0);

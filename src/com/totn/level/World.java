@@ -1,8 +1,5 @@
 package com.totn.level;
 
-import static com.totn.mikecraft.MainGame.Width;
-import static com.totn.mikecraft.MainGame.blockSize;
-import static com.totn.mikecraft.MainGame.player;
 import static com.totn.mikecraft.Physics.*;
 import static org.lwjgl.opengl.GL11.*;
 

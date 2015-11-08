@@ -2,9 +2,9 @@ package com.totn.level;
 
 import static com.totn.mikecraft.MainGame.*;
 
+import com.totn.audio.MakeSound;
 import com.totn.mikecraft.MainGame;
 import com.totn.mikecraft.Physics;
-import com.totn.mikecraft.MakeSound;
 import com.totn.mikecraft.MainGame.State;
 
 public class WorldOneFive extends Physics 
@@ -79,8 +79,10 @@ public class WorldOneFive extends Physics
 		endLogic(0);
 		if (player.getX() >= Width * 9)
 		{
-			MakeSound.playSound("world_clear.wav");
 			level = 0;
+			MakeSound.clockTown.stop();
+			MakeSound.worldClear.play();
+
 			state = State.STAGE_SWAP;
 			Physics.emeraldOne = true;
 			Physics.emeraldTwo = true;

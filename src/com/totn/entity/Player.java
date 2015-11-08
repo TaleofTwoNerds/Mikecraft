@@ -8,8 +8,8 @@ import java.awt.Rectangle;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.opengl.Texture;
 
+import com.totn.audio.MakeSound;
 import com.totn.mikecraft.Physics;
-import com.totn.mikecraft.MakeSound;
 
 public class Player extends AbstractMoveableEntity{
 	
@@ -96,7 +96,7 @@ public class Player extends AbstractMoveableEntity{
 			dy = Height / 90;
 			if(!override)
 			{
-				MakeSound.playSound("jump.wav");
+				MakeSound.jump.play();
 			}
 		}
 	}
@@ -104,7 +104,7 @@ public class Player extends AbstractMoveableEntity{
 	public void jump()
 	{
 		dy = Height / 40;  
-		MakeSound.playSound("jump.wav");
+		MakeSound.jump.play();
 	}
 
 	public boolean isEnd() 

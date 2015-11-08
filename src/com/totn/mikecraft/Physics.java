@@ -4,6 +4,7 @@ import static com.totn.mikecraft.MainGame.*;
 
 import org.lwjgl.input.Keyboard;
 
+import com.totn.audio.MakeSound;
 import com.totn.entity.Token;
 import com.totn.mikecraft.MainGame.State;
 
@@ -130,10 +131,12 @@ public class Physics
 			{
 				if (MainGame.lives >= 1)
 				{
-					MakeSound.playSound("lost_a_life.wav");
+					MakeSound.clearSounds();
+					MakeSound.lostALife.play();
 					lives = lives - 1;
 				} else {
-					MakeSound.playSound("game_over.wav");
+					MakeSound.clearSounds();
+					MakeSound.gameOver.play();
 					level = 0;
 					lives = 3;
 					score = 0;
@@ -166,7 +169,7 @@ public class Physics
 				enemy.setVisable(false);
 				enemy.setLocation(0,0);
 				score+=3;
-				MakeSound.playSound("stomp.wav");
+				MakeSound.stomp.play();
 			}	
 		}
 	}

@@ -4,6 +4,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import com.totn.audio.MakeSound;
+
 public class Menus extends MainGame 
 {
 	static void checkInput() 
@@ -19,7 +21,7 @@ public class Menus extends MainGame
 				{
 					if ( Mouse.isButtonDown(0)  && released[0]){
 						released[0] = false;
-						MakeSound.playSound("menu_option.wav");
+						MakeSound.menuOption.play();
 						if (level <= 4)
 						{
 							level++;
@@ -35,7 +37,7 @@ public class Menus extends MainGame
 				if (buttonAbstract[3].isHovering() && Mouse.isButtonDown(0) && released[0])
 				{
 					released[0] = false;
-					MakeSound.playSound("menu_option.wav");
+					MakeSound.menuOption.play();
 					if (difficultyi >= 1)
 					{
 						difficultyi = difficultyi-1;
@@ -52,7 +54,7 @@ public class Menus extends MainGame
 					if (released[0] && Mouse.isButtonDown(0))
 					{
 						released[0] = false;
-						MakeSound.playSound("menu_option.wav");
+						MakeSound.menuOption.play();
 						optionMenu = 0;
 						state = State.MAIN_MENU;
 					} else if(!Mouse.isButtonDown(0)) {
@@ -66,7 +68,7 @@ public class Menus extends MainGame
 					if (released[0] && Mouse.isButtonDown(0))
 					{
 						released[0] = false;
-						MakeSound.playSound("menu_option.wav"); 
+						MakeSound.menuOption.play();
 						if(!fullscreen)
 						{
 							fullscreen = true;
@@ -87,7 +89,7 @@ public class Menus extends MainGame
 					if (released[0] && Mouse.isButtonDown(0))
 					{
 						released[0] = false;
-						MakeSound.playSound("menu_option.wav"); 
+						MakeSound.menuOption.play();
 						state = State.MAIN_MENU;
 						GUI.drawBackground();
 					} else if(!Mouse.isButtonDown(0)) {
@@ -102,7 +104,7 @@ public class Menus extends MainGame
 				if (released[0])
 				{
 					released[0] = false;
-					MakeSound.playSound("menu_option.wav");
+					MakeSound.menuOption.play();
 					state = State.STAGE_SWAP;
 					enemy.setVisable(true);
 					enemy.setY(blockSize * 2);
@@ -117,7 +119,7 @@ public class Menus extends MainGame
 				if (released[0])
 				{
 					released[0] = false;
-					MakeSound.playSound("menu_option.wav");
+					MakeSound.menuOption.play();
 					state = State.OPTIONS;
 					optionMenu = 0;
 					GUI.drawBackground();
@@ -152,6 +154,10 @@ public class Menus extends MainGame
         		} else
         		{
         			state = State.GAME;
+        			if(MakeSound.courseClear.isPlaying())
+        			{
+        				MakeSound.courseClear.stop();
+        			}
         			break; 
         		}
 			}
@@ -161,6 +167,12 @@ public class Menus extends MainGame
 			{
 				released[1] = false;
 				player.setLocation(200, blockSize * 2);
+
+    			if(MakeSound.clockTown.isPlaying())
+    			{
+    				MakeSound.clockTown.stop();
+    			}
+    			 
 				state = State.MAIN_MENU;
 				GUI.drawBackground();
 			}

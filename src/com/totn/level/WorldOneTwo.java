@@ -4,6 +4,7 @@ import static com.totn.mikecraft.MainGame.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 
+import com.totn.audio.MakeSound;
 import com.totn.mikecraft.*;
 
 public class WorldOneTwo extends Physics
@@ -98,13 +99,15 @@ public class WorldOneTwo extends Physics
 		if ( player.getX()>= Width * 7)
 		{
 			level = 3;
-			MakeSound.playSound("course_clear.wav");
-			MakeSound.levelSound.pause();
+			MakeSound.clockTown.stop();
+			MakeSound.courseClear.play();
+
 			state = State.STAGE_SWAP;
 			player.setX(100);
 			player.setY(blockSize * 2);
 			player.setDX(0);
 			player.setDY(0);
+			enemy.setLocation(Width * 4, blockSize * 2);
 			enemy.setVisable(true);
 		}
 	}
