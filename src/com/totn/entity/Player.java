@@ -5,35 +5,33 @@ import static com.totn.mikecraft.MainGame.*;
 
 import java.awt.Rectangle;
 
-import com.totn.mikecraft.Gravity;
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.opengl.Texture;
 
-public class Player {
+import com.totn.mikecraft.Physics;
+import com.totn.mikecraft.MakeSound;
+
+public class Player extends AbstractMoveableEntity{
 	
-	public static double x;
-	public static double y;
-	public static double z;
-	public static double dx;
-	public static double dy;
-	public static boolean jumpPressed, jumpWasPressed, end = false;
-	public static int SteveX, SteveY;	
+	protected boolean end = false,ground;
+	protected int SteveX, SteveY;
+	protected int[] setting = new int[16];
+	protected double speed;
 	protected static Rectangle hitbox = new Rectangle();
 
 	
-	public Player(){
-		x = 100;
-		y = blockSize * 2;
-		dx = 4;
-	}
-
-	public void sleeping(){
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public Player(Texture t, double x, double y, double height,
+			double width) {
+		super(t, x, y, height, width);
+		this.speed = blockSize / 10;
+		this.dx = speed;
+		this.dy = 0;
+		this.x = 100;
+		this.y = blockSize * 2;
 	}
 	
-	public void draw(){
+	public void draw()
+	{
 		glPushMatrix();
 		
 		if (Char == 1){
@@ -47,15 +45,18 @@ public class Player {
 			SteveX = blockSize / 4;
 		}
 		
-		Gravity.logic();
+		Physics.logic();
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		// enable alpha blending
 		glEnable(GL_BLEND);
-		glTranslated(x, Height - y, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        if (dx < 0){
+		glTranslated(player.x, Height - y, 0);
+		if (dx < 0){
         	PlayerSkin.bind();
+        	
+    		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        	
     		glBegin(GL_QUADS);
     		glTexCoord2f(1, 1);
     		glVertex2d(-SteveX, 0);
@@ -68,6 +69,10 @@ public class Player {
     		glEnd();
         } else {
         	PlayerSkin.bind();
+        	
+    		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        	
     		glBegin(GL_QUADS);
     		glTexCoord2f(0, 1);
     		glVertex2d(-SteveX, 0);
@@ -83,20 +88,70 @@ public class Player {
 		glPopMatrix();
 		
 	}
-	public double getX() {
-		return x;
+	
+	public void jump(boolean override)
+	{
+		if(override||ground)
+		{
+			dy = Height / 90;
+			if(!override)
+			{
+				MakeSound.playSound("jump.wav");
+			}
+		}
 	}
-	public double getY() {
-		return y;
+	
+	public void jump()
+	{
+		dy = Height / 40;  
+		MakeSound.playSound("jump.wav");
 	}
-	public double getDX() {
-		return dx;
+
+	public boolean isEnd() 
+	{
+		return end;
 	}
-	public double getDY(){
-		return dy;
+
+	public void setEnd(boolean end) 
+	{
+		this.end = end;
 	}
-	public static boolean intersects(Entity other) {
-		hitbox.setBounds((int) x, (int) y, (int) SteveX, (int) SteveY);
-		return hitbox.intersects(other.getX(), other.getY(), other.getWidth(), other.getHeight());
+
+	public boolean getGround() 
+	{
+		return ground;
+	}
+
+	public void setGround(boolean ground) 
+	{
+		this.ground = ground;
+	}
+	
+	public void setSpeed(double speed)
+	{
+		this.speed = speed;
+	}
+	
+	public double getSpeed()
+	{
+		return speed;
+	}
+	
+	public void setSetting(int setting, int value)
+	{
+		this.setting[setting] = value;
+	}
+	
+	public int getSetting(int setting)
+	{
+		return this.setting[setting];
+	}
+	
+	public void defaultSettings()
+	{
+		setting[0] = Keyboard.KEY_UP;
+		setting[1] = Keyboard.KEY_RIGHT;
+		setting[2] = Keyboard.KEY_DOWN;
+		setting[3] = Keyboard.KEY_LEFT;
 	}
 }

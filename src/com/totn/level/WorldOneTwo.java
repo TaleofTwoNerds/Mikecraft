@@ -4,46 +4,23 @@ import static com.totn.mikecraft.MainGame.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 
-import org.lwjgl.Sys;
-import org.newdawn.slick.Color;
+import com.totn.mikecraft.*;
 
-import com.totn.entity.Player;
-import com.totn.mikecraft.Gravity;
-import com.totn.mikecraft.MainGame;
-import com.totn.mikecraft.MakeSound;
-import com.totn.mikecraft.MainGame.State;
-
-public class WorldOneTwo extends Gravity
+public class WorldOneTwo extends Physics
 {
 	public static boolean spawnEmerald = false;
 	public static float decell = (float) 0.8;
-	public static World.Emerald emerald[] = new World.Emerald[10];
 	public static World.Block back, gold[] = new World.Block[10], 
 			bridge[] = new World.Block[4], stone[] = new World.Block[4];
 	public static World.Ground ground[] = new World.Ground[4];
 	public static World.Hill hill[] = new World.Hill[10];
 	public static World.Block brick[] = new World.Block[10];
-	private static long lastFrame;
-
-    private static long getTime() 
-    {
-        return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-    }
-
-    protected static int getDelta() 
-    {
-        long currentTime = getTime();
-        int delta = (int) (currentTime - lastFrame);
-        lastFrame = getTime();
-        return delta;
-    }
     
     public static void main()
     {
     	WorldOneTwo.drawBackground();
 		WorldOneTwo.gravitation();
 		WorldOneTwo.render();
-		WorldOneTwo.logic(getDelta());
     }
     
 	public static void drawBackground() 
@@ -52,7 +29,7 @@ public class WorldOneTwo extends Gravity
 
 		back = new World.Block(Sky,0, 0, -Height * 2, Width * 8);
 		ground[1] = new World.Ground(Dirt,0, blockSize * 2, blockSize * 2, Width * 2 - blockSize * 2);
-		ground[2] = new World.Ground(Dirt, Width * 2 + blockSize * 3, blockSize * 2, blockSize * 2, Width * 2 - blockSize * 4);
+		ground[2] = new World.Ground(Dirt, Width * 2 + blockSize * 2, blockSize * 2, blockSize * 2, Width * 2 - blockSize * 4);
 		ground[3] = new World.Ground(Dirt, Width * 4 + blockSize * 6, blockSize * 2, blockSize * 2, Width * 3);
 		hill[1] = new World.Hill(Grass, Width * 2 + blockSize * 9, blockSize * 3, blockSize, blockSize * 5);
 		hill[2] = new World.Hill(Grass, Width * 3, blockSize * 4, blockSize, blockSize * 4);
@@ -69,14 +46,11 @@ public class WorldOneTwo extends Gravity
         
 		gold[1] = new World.Block(Gold, Width + blockSize, blockSize * 6, blockSize, blockSize);
         stone[1] = new World.Block(Stone, Width * 3 + blockSize * 4, blockSize * 6, blockSize * 4, blockSize);
-        
-        emerald[1] = new World.Emerald(Emerald, Width + blockSize, blockSize * 6 + blockSize / 6, blockSize, blockSize);
 	}
 	static void render() 
 	{
         glClear(GL_COLOR_BUFFER_BIT);
         back.draw();
-        if(Gravity.emeraldOne){emerald[1].draw();}
 		brick[1].draw();
 		brick[2].draw();
 		brick[3].draw();
@@ -96,12 +70,11 @@ public class WorldOneTwo extends Gravity
         fontRender();
     }
 	
-	@SuppressWarnings("deprecation")
 	private static void fontRender()
 	{
-		font3.drawString(blockSize, Height / 4 -  32, "You're not bad...", Color.white);
-		font3.drawString(blockSize, Height / 4, "Let's turn it up a notch", Color.white);
-		font3.drawString(Width * 5, Height - blockSize * 4, "Missed it", Color.white);
+		MainGame.fontDrawString(font3, blockSize, Height / 4 -  32, "You're not bad...");
+		MainGame.fontDrawString(font3, blockSize, Height / 4, "Let's turn it up a notch");
+		MainGame.fontDrawString(font3, Width * 5, Height - blockSize * 4, "Missed it");
 	}
 	
 	static void logic(int delta)
@@ -111,34 +84,28 @@ public class WorldOneTwo extends Gravity
 	public static void gravitation()
 	{
 		endLogic(0);
-//		if (x >= Width - BlockSize * 2 && x <= Width - BlockSize * 1 && y >= BlockSize * 2.3 && y <= BlockSize * 2.4)
+//		if (x >= Width - BlockSize * 2 && player.getX()<= Width - BlockSize * 1 && player.getY() >= BlockSize * 2.3 && player.getY() <= BlockSize * 2.4)
 //		{
 //			dy = -5;
-//		} else if (x >= Width +  BlockSize  * 0 && x <= Width + BlockSize * 3 && y >= BlockSize * 2.3 && y <= BlockSize * 2.4)
+//		} else if (x >= Width +  BlockSize  * 0 && player.getX()<= Width + BlockSize * 3 && player.getY() >= BlockSize * 2.3 && player.getY() <= BlockSize * 2.4)
 //		{
 //			dy = -5;
-//		} else if (x >= Width + BlockSize * 4 && x <= Width + BlockSize * 5 && y >= BlockSize * 2.3 && y <= BlockSize * 2.4)
+//		} else if (x >= Width + BlockSize * 4 && player.getX()<= Width + BlockSize * 5 && player.getY() >= BlockSize * 2.3 && player.getY() <= BlockSize * 2.4)
 //		{
 //			dy = -5;
 //		}
 		
-		if ( x >= Width * 7)
+		if ( player.getX()>= Width * 7)
 		{
-			MakeSound.playSound("course_clear.wav");
-			dx = 0;
 			level = 3;
+			MakeSound.playSound("course_clear.wav");
+			MakeSound.levelSound.pause();
 			state = State.STAGE_SWAP;
-			try 
-			{
-				MainGame.main(null);
-			} catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
-			Player.x= 100;
-			Player.y = blockSize * 2;
-			player.dx = 0;
-			player.dy = 0;
+			player.setX(100);
+			player.setY(blockSize * 2);
+			player.setDX(0);
+			player.setDY(0);
+			enemy.setVisable(true);
 		}
 	}
 }

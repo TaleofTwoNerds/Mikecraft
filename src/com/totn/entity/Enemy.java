@@ -5,35 +5,29 @@ import static com.totn.mikecraft.MainGame.*;
 
 import java.awt.Rectangle;
 
-import com.totn.mikecraft.Gravity;
+import org.newdawn.slick.opengl.Texture;
 
-public class Enemy 
+public class Enemy extends AbstractMoveableEntity 
 {
-	public static double x;
-	public double y;
-	public double dx;
-	public double dy;
-	public double xbL;
-	public double xbR;
-	public boolean toDraw = true;
-	public boolean jumpPressed,jumpWasPressed,end = false;
-	public static int enemyX, enemyY;	
+	protected double xBoundLeft, xBoundRight, speed;
+	protected boolean toDraw = true;
 	protected static Rectangle hitbox = new Rectangle();
 
 	
-	public Enemy()
-	{
-		y = blockSize * 2;
-		dx = 4;
+	public Enemy(Texture t, double x, double y, double height,
+			double width) {
+		super(t, x, y, height, width);
+		this.speed = blockSize / 15;
+		this.dx = speed;
+		this.y = blockSize * 2;
 	}
+	
 	public void draw()
 	{
 		glPushMatrix();
 		
-		enemyY = blockSize;
-		enemyX = blockSize / 2;
-		
-		Gravity.enemyLogic();
+		height = blockSize;
+		width = blockSize;
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		// enable alpha blending
@@ -43,77 +37,67 @@ public class Enemy
         if (dx < 0)
         {
         	MikeChar.bind();
+        	
+    		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        	
     		glBegin(GL_QUADS);
     		glTexCoord2f(0, 1);
-    		glVertex2d(-enemyX, 0);
+    		glVertex2d(-width / 2, 0);
     		glTexCoord2f(1, 1);
-    		glVertex2d(enemyX, 0);
+    		glVertex2d(width / 2, 0);
     		glTexCoord2f(1, 0);
-    		glVertex2d(enemyX, -enemyY);
+    		glVertex2d(width / 2, -height);
     		glTexCoord2f(0, 0);
-    		glVertex2d(-enemyX, -enemyY);
+    		glVertex2d(-width / 2, -height);
     		glEnd();
         } else {
         	MikeChar.bind();
+        	
+    		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        	
     		glBegin(GL_QUADS);
     		glTexCoord2f(0, 1);
-    		glVertex2d(-enemyX, 0);
+    		glVertex2d(-width / 2, 0);
     		glTexCoord2f(-1, 1);
-    		glVertex2d(enemyX, 0);
+    		glVertex2d(width / 2, 0);
     		glTexCoord2f(-1, 0);
-    		glVertex2d(enemyX, -enemyY);
+    		glVertex2d(width / 2, -height);
     		glTexCoord2f(0, 0);
-    		glVertex2d(-enemyX, -enemyY);
+    		glVertex2d(-width / 2, -height);
     		glEnd();
         }
 		
 		glPopMatrix();
-		
-	}
-	public void setX(int xPos)
-	{
-		x = xPos;
-	}
-	public void setY(int yPos)
-	{
-		y = yPos;
-	}
-	public void setPos(int xPos,int yPos)
-	{
-		x = xPos;
-		y = yPos;
 	}
 	public void setVisable(boolean bool)
 	{
 		toDraw = bool;
 	}
-	public void setBounds(int x,int x2)
+	public void setBounds(int xLeft,int xRight)
 	{
-		xbL = x;
-		xbR = x2;
+		xBoundLeft = xLeft;
+		xBoundRight = xRight;
+	}
+	public boolean isVisable()
+	{
+		return toDraw;
 	}
 	public double getBoundLeft()
 	{
-		return xbL;
+		return xBoundLeft;
 	}
 	public double getBoundRight()
 	{
-		return xbR;
+		return xBoundRight;
 	}
-	public double getX() 
+	public void setSpeed(double speed)
 	{
-		return x;
+		this.speed = speed;
 	}
-	public double getY() 
+	public double getSpeed()
 	{
-		return y;
-	}
-	public double getDX() 
-	{
-		return dx;
-	}
-	public double getDY()
-	{
-		return dy;
+		return speed;
 	}
 }

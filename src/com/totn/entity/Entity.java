@@ -1,7 +1,5 @@
 package com.totn.entity;
 
-import org.newdawn.slick.opengl.Texture;
-
 public interface Entity {
 	public void draw();
 	

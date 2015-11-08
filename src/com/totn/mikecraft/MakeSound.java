@@ -12,12 +12,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import org.lwjgl.opengl.Display;
-
-import com.totn.level.World;
-import com.totn.mikecraft.MainGame.State;
-
-public class MakeSound 
+public class MakeSound extends MainGame
 {
 	private static double vLevel = -80;
 	public static Sound levelSound,themeSound,menuOption,gameOver,lifeLost,jump,stomp,
@@ -25,12 +20,12 @@ public class MakeSound
 	
 	public static void initSounds()
 	{		
-		levelSound = new Sound(MainGame.levelSong);
-		themeSound = new Sound(MainGame.themeSong);
+		levelSound = new Sound(levelSong);
+		themeSound = new Sound(themeSong);
 	}
 	public static void volumeControl()
 	{
-		if(MainGame.volume>=-60){vLevel = MainGame.volume - 80;}
+		if(volume>=-60){vLevel = volume - 80;}
 		else{vLevel=0;}
 	}
 	public static class Sound

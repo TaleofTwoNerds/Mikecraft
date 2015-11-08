@@ -1,19 +1,12 @@
 package com.totn.mikecraft;
 
-import static com.totn.mikecraft.MainGame.level;
-import static com.totn.mikecraft.MainGame.levelName;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class FileIO
 {	
 	private static String path = null;
-	private boolean append_to_file = false;
-	
 	public static void ReadMain(String file_path)
 	{
 //		System.out.println("Beginning...");
@@ -40,7 +33,7 @@ public class FileIO
 		path = file_path;
 	}
 
-	public static String[] OpenFile() throws IOException
+	public String[] OpenFile() throws IOException
 	{
 //		System.out.println("File Opening...");
 		FileReader fr = new FileReader(path);
