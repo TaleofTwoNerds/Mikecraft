@@ -15,7 +15,7 @@ public class WorldOneTwo extends Physics
 			bridge[] = new World.Block[4], stone[] = new World.Block[4];
 	public static World.Ground ground[] = new World.Ground[4];
 	public static World.Hill hill[] = new World.Hill[10];
-	public static World.Block brick[] = new World.Block[10];
+	public static World.FullBlock brick[] = new World.FullBlock[10];
     
     public static void main()
     {
@@ -37,10 +37,10 @@ public class WorldOneTwo extends Physics
 		hill[3] = new World.Hill(Grass, Width * 3 + blockSize, blockSize * 5, blockSize, blockSize * 3);
 		hill[4] = new World.Hill(Grass, Width * 3 + blockSize * 2, blockSize * 6, blockSize, blockSize * 2);
 		
-		brick[1] = new World.Block(Brick, blockSize * 8, blockSize * 6, blockSize, blockSize);
-		brick[2] = new World.Block(Brick, blockSize * 10, blockSize * 6, blockSize, blockSize);
-		brick[3] = new World.Block(Brick, Width + blockSize * 2, blockSize * 6, blockSize, blockSize);
-		brick[4] = new World.Block(Brick, Width + blockSize * 4, blockSize * 6, blockSize, blockSize);
+		brick[1] = new World.FullBlock(Brick, blockSize * 8, blockSize * 6, blockSize, blockSize);
+		brick[2] = new World.FullBlock(Brick, blockSize * 10, blockSize * 6, blockSize, blockSize);
+		brick[3] = new World.FullBlock(Brick, Width + blockSize * 2, blockSize * 6, blockSize, blockSize);
+		brick[4] = new World.FullBlock(Brick, Width + blockSize * 4, blockSize * 6, blockSize, blockSize);
 		
 		bridge[1] = new World.Block(Planks_oak, Width * 3 + blockSize * 8, blockSize * 7, blockSize, blockSize * 4);
 		bridge[2] = new World.Block(Planks_oak, Width * 4 + blockSize * 8, blockSize * 7, blockSize, blockSize * 4);

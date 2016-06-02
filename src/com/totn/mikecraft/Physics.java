@@ -25,14 +25,15 @@ public class Physics
 	
 //	Collision detection
 //	Called by the world class
-	public static void detection(double x, double y, double width, double height)
+	public static void detection(boolean bottom, double x, double y, double width, double height)
 	{
 		double yBottom = y - blockSize * .25;
+		double yTop = y + blockSize * .25;
 		if(!dead)
 		{
-				if(player.getY() <= y && player.getY() >= yBottom && player.getX() >= x-player.getWidth() / 4 && player.getX() <= x+width+player.getWidth() / 2)
-				{
-					if(player.getDY() <= 0 && player.getY() >= yBottom)
+			if(player.getY() <= y && player.getY() >= yBottom && player.getX() >= x-player.getWidth() / 4 && player.getX() <= x+width+player.getWidth() / 2)
+			{
+				if(player.getDY() <= 0 && player.getY() >= yBottom)
 				{
 					player.setDY(0);
 					player.setY(y);
@@ -42,7 +43,18 @@ public class Physics
 				} else {
 					player.setGround(false);
 				}
-			}
+//				player.getY() <= y && player.getY() >= yBottom && player.getX() >= x-player.getWidth() / 4 && player.getX() <= x+width+player.getWidth() / 2
+			} 
+			if(bottom && player.getY() + player.getHeight() <= (y - height + (blockSize * .25) )&& player.getY() + player.getHeight() >= y - height &&  player.getX() >= x-player.getWidth() / 4 && player.getX() <= x+width+player.getWidth() / 2) {
+				if(player.getDY() >= 0)
+				{
+					player.setDY(0);
+					player.setY(y - height - player.getHeight());
+					player.setGround(false);
+					movement();
+					player.setGround(false);
+				}
+			} 
 		}
 		
 		if(enemy.getY() <= y && enemy.getY() >= yBottom && enemy.getX() >= x-player.getWidth() / 4 && enemy.getX() <= x+width+player.getWidth() / 2)

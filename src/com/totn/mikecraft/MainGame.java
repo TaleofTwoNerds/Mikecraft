@@ -34,7 +34,7 @@ public class MainGame
 	public static String levelName[] = new String[12],charName[] = new String[4],
 			difficulty[] = new String[4];
 	public static final int blockSize = Width / 10;
-	public static double level = 1,volume=60;
+	public static double level = 1,volume=00;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
 			inDevelopment=true, fullscreen = false,paused = false;
 	

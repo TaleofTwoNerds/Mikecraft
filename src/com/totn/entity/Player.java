@@ -96,15 +96,18 @@ public class Player extends AbstractMoveableEntity{
 			dy = Height / 90;
 			if(!override)
 			{
-				MakeSound.jump.play();
+				MakeSound.jump.restart();
 			}
 		}
 	}
 	
 	public void jump()
 	{
-		dy = Height / 40;  
-		MakeSound.jump.play();
+		if(ground)
+		{
+			dy = Height / 40;  
+			MakeSound.jump.restart();
+		}
 	}
 
 	public boolean isEnd() 

@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import javax.sound.sampled.*;
 
+import com.totn.mikecraft.MainGame;
+
 public abstract class AbstractSound 
 {
 	protected int ID;
@@ -23,29 +25,25 @@ public abstract class AbstractSound
 		this.filepath = "res/sound/" + filepath;
 		file = new File(this.filepath);
 		
-//		/*
-		
 		try 
         {
 			stream = AudioSystem.getAudioInputStream(new File(this.filepath));
 	        format = stream.getFormat();
 	        info = new DataLine.Info(Clip.class, format);
 	        clip = (Clip)AudioSystem.getLine(info);
-//	        SourceDataLine dataLine = (SourceDataLine) AudioSystem.getLine( info );
 	        clip.open(stream);
+	        
 	        // Adjust the volume on the output line.
 	        if( clip.isControlSupported( FloatControl.Type.MASTER_GAIN)) {
 	            // If inside this if, the Master_Gain must be supported. Yes?
 	            FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	            // This line throws an exception. "Master_Gain not supported"
-	            volume.setValue( 100.0F );
+	            volume.setValue( (float) MainGame.volume );
 	        }
-        	
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) 
         {
 			e.printStackTrace();
 		}
-//		*/
 	}
 	
 	public int getID()
@@ -60,7 +58,6 @@ public abstract class AbstractSound
 	
 	public void play()
 	{
-//		/*
 		if(!clip.isRunning())
 		{
 			try 
@@ -75,7 +72,6 @@ public abstract class AbstractSound
 			}
 	        clip.start();
 		}
-//		*/
 	}
 	
 	public void stop()

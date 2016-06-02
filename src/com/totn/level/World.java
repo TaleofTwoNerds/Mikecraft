@@ -50,7 +50,33 @@ public class World extends MainGame
 		@Override
 		public void draw() 
 		{
-			Physics.detection(x,y,width,height);
+			Physics.detection(false, x,y,width,height);
+			y = Height - y;
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			t.bind();
+			glBegin(GL_QUADS);
+			glTexCoord2f(0, 0);
+        	glVertex2d(x, y + height); // Upper-left
+        	glTexCoord2d(width / blockSize, 0);
+        	glVertex2d(x + width, y + height); // Upper-right
+        	glTexCoord2d(width / blockSize, -height/blockSize);
+        	glVertex2d(x + width, y); // Bottom-right
+        	glTexCoord2d(0, -height/blockSize);
+        	glVertex2d(x, y); // Bottom-left
+        	glEnd();
+		}	
+	}
+    public static class FullBlock extends AbstractMoveableEntity 
+    {
+		public FullBlock(Texture t, double x, double y, double height, double width) 
+		{
+			super(t, x, y, height, width);
+		}
+		
+		@Override
+		public void draw() 
+		{
+			Physics.detection(true, x,y,width,height);
 			y = Height - y;
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			t.bind();
@@ -77,7 +103,7 @@ public class World extends MainGame
 		@Override
 		public void draw() 
 		{
-			Physics.detection(x,y,width,height);
+			Physics.detection(false, x,y,width,height);
 			y = Height - y;
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			t.bind();
@@ -105,7 +131,7 @@ public class World extends MainGame
 		@Override
 		public void draw() 
 		{
-			Physics.detection(x,y,width,height);
+			Physics.detection(false, x,y,width,height);
 			
 			if((player.getY() <= y - blockSize && player.getY() >= y - height) && (player.getX() >=  x - blockSize / 3 && player.getX() <=  x + width + blockSize / 3))
 			{
