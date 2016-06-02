@@ -23,21 +23,29 @@ public abstract class AbstractSound
 		this.filepath = "res/sound/" + filepath;
 		file = new File(this.filepath);
 		
+//		/*
+		
 		try 
         {
 			stream = AudioSystem.getAudioInputStream(new File(this.filepath));
 	        format = stream.getFormat();
 	        info = new DataLine.Info(Clip.class, format);
-	        clip = (Clip) AudioSystem.getLine(info);
-			clip.open(stream);
-        	FloatControl gainControl = 
-        			(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        	gainControl.setValue((float) -10);
+	        clip = (Clip)AudioSystem.getLine(info);
+//	        SourceDataLine dataLine = (SourceDataLine) AudioSystem.getLine( info );
+	        clip.open(stream);
+	        // Adjust the volume on the output line.
+	        if( clip.isControlSupported( FloatControl.Type.MASTER_GAIN)) {
+	            // If inside this if, the Master_Gain must be supported. Yes?
+	            FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+	            // This line throws an exception. "Master_Gain not supported"
+	            volume.setValue( 100.0F );
+	        }
         	
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) 
         {
 			e.printStackTrace();
 		}
+//		*/
 	}
 	
 	public int getID()
@@ -52,6 +60,7 @@ public abstract class AbstractSound
 	
 	public void play()
 	{
+//		/*
 		if(!clip.isRunning())
 		{
 			try 
@@ -66,6 +75,7 @@ public abstract class AbstractSound
 			}
 	        clip.start();
 		}
+//		*/
 	}
 	
 	public void stop()
@@ -81,6 +91,7 @@ public abstract class AbstractSound
 	
 	public boolean isPlaying()
 	{
+//		return false;
 		return clip.isRunning();
 	}
 }
