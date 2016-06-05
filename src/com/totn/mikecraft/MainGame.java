@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -25,18 +26,18 @@ import com.totn.level.World;
 public class MainGame 
 {	
 //	Game Information
-	public static final String ver = "PRE 1.3",title="Mikecraft";
+	public static final String ver = "PRE 1.3.1 LB",title="Mikecraft";
 	public static final String themeSong = "dovakiin.wav",levelSong = "clock_town.wav";
 	
 	public static int Height = 480,Width = 640,Char = 1,lives = 3,difficultyi = 3,optionMenu = 1;
 	public static int displayHeight, displayWidth;
-	public static int nHeight = -Height;
+//	Cannot even remember why I needed nHeight.
 	public static String levelName[] = new String[12],charName[] = new String[4],
 			difficulty[] = new String[4];
-	public static final int blockSize = Width / 10;
+	public static int blockSize = Width / 10;
 	public static double level = 1,volume=00;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
-			inDevelopment=true, fullscreen = false,paused = false;
+			inDevelopment=false, fullscreen = false,paused = false;
 	
 //	Game Entities
 	public static Player player;
@@ -66,7 +67,6 @@ public class MainGame
             Display.setDisplayMode(new DisplayMode(displayWidth, displayHeight));
             Display.setFullscreen(fullscreen);
     		Display.setTitle(title + " "+ ver +" | Loading...");
-    		Display.setResizable(false);
             Display.create();
             System.out.println(Sys.getVersion());
     	} catch (LWJGLException e)
@@ -74,7 +74,6 @@ public class MainGame
             e.printStackTrace();
             Display.destroy();
         }
-    	
     }
 	
 	public static void updateDisplay(int newWidth, int newHeight)
@@ -136,9 +135,12 @@ public class MainGame
 		
 //		Theme song
 		MakeSound.initSounds();
+		MakeSound.theme.play();
 		
 //		Initializes the fonts
 		fontInit(24);
+		
+		boolean resized = false;
 		
 		while(!Display.isCloseRequested())
 		{
@@ -147,6 +149,18 @@ public class MainGame
 			Menus.checkInput();	
 			setTitle();
 			setCamera();
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_R))
+			{
+				if(!resized)
+				{
+					updateDisplay(800,600);
+					resized = true;
+				} else {
+					updateDisplay(640,480);
+					resized = false;
+				}
+			}
 			
 //			During game play these run
 			if(state == State.GAME && !paused)
@@ -187,6 +201,11 @@ public class MainGame
 //		Dev Title
 		else {Display.setTitle(title + " DEV "+ver+" | " + level + " | " + (disX - 1) + "." + disXDec + " , "+ disY + " | Score: " + Physics.score + " | Lives: " + lives + " | " + mousePosition);}
 	}
+	
+//	Look into modifying the camera translation so I can add a HUD which "sticks"
+//	to the corner of the camera. Perhaps add a camera class (i.e. Camera.getX()) 
+//	or similar
+	
 	static void setCamera() 
 	{
 		//clear screen

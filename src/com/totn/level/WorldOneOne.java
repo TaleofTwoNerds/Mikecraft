@@ -18,11 +18,6 @@ public class WorldOneOne extends Physics
 
 	public static void main()
 	{
-//		Sound is put into levels individually to allow changing of the individual songs.
-		if(!MakeSound.clockTown.isPlaying())
-		{
-//			MakeSound.clockTown.play();
-		}
 		drawBackground();
 		gravitation();	
 		render();

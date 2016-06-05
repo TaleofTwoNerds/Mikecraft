@@ -105,6 +105,7 @@ public class Menus extends MainGame
 				{
 					released[0] = false;
 					MakeSound.menuOption.play();
+					MakeSound.theme.stop();
 					state = State.STAGE_SWAP;
 					enemy.setVisable(true);
 					enemy.setY(blockSize * 2);
@@ -145,7 +146,7 @@ public class Menus extends MainGame
 			break;
 			
 		case STAGE_SWAP:
-			if (Keyboard.isKeyDown(28)) 
+			if(anyKeyPressed()) 
 			{
         		if (level == 0)
         		{
@@ -153,6 +154,7 @@ public class Menus extends MainGame
         			state = State.MAIN_MENU;
         		} else
         		{
+        			MakeSound.clockTown.play();
         			state = State.GAME;
         			if(MakeSound.courseClear.isPlaying())
         			{
@@ -179,5 +181,19 @@ public class Menus extends MainGame
 		default:
 			break;
 		}
+	}
+	
+	static boolean anyKeyPressed()
+	{
+		boolean isAnyKeyDown = false;
+//		Check whether any key has been pressed except for escape (Key 1) which
+//		always takes precedent because that's how I designed this engine
+		for(int i=0;i<=Keyboard.getKeyCount();i++)
+		{
+			if(Keyboard.isKeyDown(i) && !Keyboard.isKeyDown(1)){
+				isAnyKeyDown = true;
+			}
+		}
+		return isAnyKeyDown;
 	}
 }

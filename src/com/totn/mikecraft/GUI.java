@@ -131,7 +131,7 @@ public class GUI
 			} else {
 				MainGame.fontCenter(font2, Height / 2 - blockSize * 2, "World " + levelName[(int)level]);
 			}
-			MainGame.fontCenter(font3, Height / 2 - blockSize, "PRESS ENTER");
+			MainGame.fontCenter(font3, Height / 2 - blockSize, "PRESS ANY KEY");
 			if(level != 0)
 			{
 				MainGame.fontCenter(font3, Height / 2, "Lives: " + lives);
