@@ -25,6 +25,8 @@ public class WorldOneOne extends Physics
 		render();
 	}
 	
+//	Test
+	
 	public static void drawBackground() 
 	{	
 		enemy.setBounds(Width * 4 / 2, Width * 7 / 2);
