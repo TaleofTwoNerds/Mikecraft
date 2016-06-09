@@ -26,7 +26,19 @@ public class Menus extends MainGame
 						{
 							level++;
 						} else {
-							level = 1;
+							level=1;
+						}
+					}	
+				} else if(buttonAbstract[2].isHovering() && !inDevelopment)
+				{
+					if ( Mouse.isButtonDown(0)  && released[0]){
+						released[0] = false;
+						MakeSound.menuOption.play();
+						if (sounds)
+						{
+							sounds=false;
+						} else {
+							sounds=true;
 						}
 					}	
 				} else if(!Mouse.isButtonDown(0)){

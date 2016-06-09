@@ -3,6 +3,8 @@ package com.totn.level;
 import static com.totn.mikecraft.MainGame.*;
 import static org.lwjgl.opengl.GL11.*;
 
+import org.lwjgl.input.Keyboard;
+
 import com.totn.audio.MakeSound;
 import com.totn.mikecraft.MainGame;
 import com.totn.mikecraft.Physics;
@@ -14,7 +16,7 @@ public class WorldOneOne extends Physics
 	public static World.Back dirt[] = new World.Back[16], explosive, wheat;
 	public static World.Hill hill[] = new World.Hill[16];
 	public static World.Block back,bridge[] = new World.Block[16];
-	private static int worldWidth = Width * 5;
+	private static int worldWidth = Width * 10;
 
 	public static void main()
 	{
@@ -34,6 +36,7 @@ public class WorldOneOne extends Physics
 		ground[1] = new World.Ground(Dirt, 0, blockSize * 2, blockSize * 2, Width * 2);
 		ground[2] = new World.Ground(Dirt, Width * 2 + blockSize * 2, blockSize * 2, blockSize * 2, Width * 2 - blockSize * 4);
 		ground[3] = new World.Ground(Dirt, Width * 4 + blockSize * 3, blockSize * 1, blockSize * 2, Width * 2);
+		ground[4] = new World.Ground(Dirt, Width * 6 + blockSize * 3, blockSize * 2, blockSize * 2, Width * 5);
 
 		hill[1] = new World.Hill(Grass, Width - blockSize, blockSize * 3, blockSize, blockSize * 3);
 		hill[2] = new World.Hill(Grass, Width, blockSize * 4, blockSize, blockSize * 3);
@@ -41,13 +44,15 @@ public class WorldOneOne extends Physics
 		
 		dirt[1] = new World.Back(Dirt, Width - blockSize * 2, blockSize * 4, blockSize * 3, blockSize * 5);
 		
-		bridge[1] = new World.Block(Planks_oak, Width * 2 - blockSize, blockSize * 2, blockSize, blockSize * 4);
-		bridge[2] = new World.Block(Planks_oak, Width + blockSize * 5, blockSize * 4, blockSize, blockSize * 2);
-		bridge[3] = new World.Block(Planks_oak, Width + blockSize * 8, blockSize * 5, blockSize, blockSize * 4);
-		bridge[4] = new World.Block(Planks_oak, Width * 2 + blockSize * 4, blockSize * 6, blockSize, blockSize * 4);
+		bridge[0] = new World.Block(Planks_oak, Width + blockSize * 5, blockSize * 4, blockSize, blockSize * 2);
+		bridge[1] = new World.Block(Planks_oak, Width + blockSize * 8, blockSize * 5, blockSize, blockSize * 4);
+		bridge[2] = new World.Block(Planks_oak, Width + blockSize * 9, blockSize * 2, blockSize, blockSize * 4);
+		bridge[3] = new World.Block(Planks_oak, Width * 2 + blockSize * 4, blockSize * 6, blockSize, blockSize * 4);
 		bridge[5] = new World.Block(Planks_oak, Width * 3 + blockSize, blockSize * 6, blockSize, blockSize * 3);
-		bridge[6] = new World.Block(Planks_oak, Width * 4 - blockSize * 3, blockSize * 7, blockSize, Width / 2);
-		bridge[7] = new World.Block(Planks_oak, Width * 3 + blockSize, blockSize * 6, blockSize, blockSize * 3);
+		bridge[4] = new World.Block(Planks_oak, Width * 3 + blockSize * 7, blockSize * 7, blockSize, Width / 2);
+		bridge[6] = new World.Block(Planks_oak, Width * 3 + blockSize * 8, blockSize * 5, blockSize, blockSize * 4);
+		bridge[7] = new World.Block(Planks_oak, Width * 4, blockSize * 6, blockSize, blockSize * 2);
+		bridge[8] = new World.Block(Planks_oak, Width * 4 + blockSize * 2, blockSize * 6, blockSize, blockSize * 3);
 
 		//title
 		if (state == State.MAIN_MENU){
@@ -77,15 +82,16 @@ public class WorldOneOne extends Physics
         ground[1].draw();
         ground[2].draw();
         ground[3].draw();
+        ground[4].draw();
         explosive.draw();
         wheat.draw();
-        bridge[1].draw();
-        bridge[2].draw();
-        bridge[3].draw();
-        bridge[4].draw();
-        bridge[5].draw();
-        bridge[6].draw();
-        bridge[7].draw();
+        for(int bridgeToDraw=0;bridgeToDraw<=8;bridgeToDraw++)
+        {
+        	if(!Keyboard.isKeyDown(2 + bridgeToDraw))
+        	{
+        		bridge[bridgeToDraw].draw();
+        	}
+        }
         
 		fontRender();
     }

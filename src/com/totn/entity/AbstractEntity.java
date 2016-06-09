@@ -5,13 +5,13 @@ import java.awt.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
 import com.totn.entity.Entity;
+import com.totn.mikecraft.MainGame;
 
 public abstract class AbstractEntity implements Entity {
 
 	protected double x, y, height, width;
 	protected Texture t;
 	protected Rectangle hitbox = new Rectangle();
-	
 	
 	public AbstractEntity(Texture t, double x, double y, double height, double width) {
 		this.x = x;

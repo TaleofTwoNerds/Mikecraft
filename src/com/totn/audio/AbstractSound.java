@@ -58,7 +58,7 @@ public abstract class AbstractSound
 	
 	public void play()
 	{
-		if(!clip.isRunning())
+		if(!clip.isRunning() && MainGame.sounds)
 		{
 			try 
 	        {
@@ -82,7 +82,10 @@ public abstract class AbstractSound
 	public void restart()
 	{
 		stop();
-		play();
+		if(MainGame.sounds)
+		{
+			play();
+		}
 	}
 	
 	public boolean isPlaying()

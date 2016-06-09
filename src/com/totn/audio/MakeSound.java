@@ -40,4 +40,14 @@ public class MakeSound extends MainGame
 			super(ID, name, filepath);
 		}
 	}
+	
+	public static void RefreshMusic()
+	{
+		if(sounds)
+		{
+			
+		} else {
+			clearSounds();
+		}
+	}
 }

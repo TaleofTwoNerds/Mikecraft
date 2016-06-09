@@ -10,18 +10,20 @@ import com.totn.mikecraft.*;
 public class WorldOneTwo extends Physics
 {
 	public static boolean spawnEmerald = false;
+	private static boolean setupLevel = false;
 	public static float decell = (float) 0.8;
-	public static World.Block back, gold[] = new World.Block[10], 
+	public static World.Block back, 
 			bridge[] = new World.Block[4], stone[] = new World.Block[4];
 	public static World.Ground ground[] = new World.Ground[4];
 	public static World.Hill hill[] = new World.Hill[10];
-	public static World.FullBlock brick[] = new World.FullBlock[10];
+	public static World.FullBlock brick[] = new World.FullBlock[10], gold[] = new World.FullBlock[10];
     
     public static void main()
     {
-    	WorldOneTwo.drawBackground();
-		WorldOneTwo.gravitation();
-		WorldOneTwo.render();
+    	drawBackground();
+    	variableBlocks();
+		gravitation();
+		render();
     }
     
 	public static void drawBackground() 
@@ -37,17 +39,22 @@ public class WorldOneTwo extends Physics
 		hill[3] = new World.Hill(Grass, Width * 3 + blockSize, blockSize * 5, blockSize, blockSize * 3);
 		hill[4] = new World.Hill(Grass, Width * 3 + blockSize * 2, blockSize * 6, blockSize, blockSize * 2);
 		
+		bridge[1] = new World.Block(Planks_oak, Width * 3 + blockSize * 8, blockSize * 7, blockSize, blockSize * 4);
+		bridge[2] = new World.Block(Planks_oak, Width * 4 + blockSize * 8, blockSize * 7, blockSize, blockSize * 4);
+        
+        stone[1] = new World.Block(Stone, Width * 3 + blockSize * 4, blockSize * 6, blockSize * 4, blockSize);
+	}
+	
+	public static void variableBlocks()
+	{
+		gold[1] = new World.FullBlock(Gold, Width + blockSize, blockSize * 6, blockSize, blockSize);
+		
 		brick[1] = new World.FullBlock(Brick, blockSize * 7, blockSize * 6, blockSize, blockSize);
 		brick[2] = new World.FullBlock(Brick, blockSize * 10, blockSize * 6, blockSize, blockSize);
 		brick[3] = new World.FullBlock(Brick, Width + blockSize * 2, blockSize * 6, blockSize, blockSize);
 		brick[4] = new World.FullBlock(Brick, Width + blockSize * 5, blockSize * 6, blockSize, blockSize);
-		
-		bridge[1] = new World.Block(Planks_oak, Width * 3 + blockSize * 8, blockSize * 7, blockSize, blockSize * 4);
-		bridge[2] = new World.Block(Planks_oak, Width * 4 + blockSize * 8, blockSize * 7, blockSize, blockSize * 4);
-        
-		gold[1] = new World.Block(Gold, Width + blockSize, blockSize * 6, blockSize, blockSize);
-        stone[1] = new World.Block(Stone, Width * 3 + blockSize * 4, blockSize * 6, blockSize * 4, blockSize);
 	}
+	
 	static void render() 
 	{
         glClear(GL_COLOR_BUFFER_BIT);

@@ -43,7 +43,6 @@ public class Physics
 				} else {
 					player.setGround(false);
 				}
-//				player.getY() <= y && player.getY() >= yBottom && player.getX() >= x-player.getWidth() / 4 && player.getX() <= x+width+player.getWidth() / 2
 			} 
 			if(bottom && player.getY() + player.getHeight() <= (y - height + (blockSize * .25) )&& player.getY() + player.getHeight() >= y - height &&  player.getX() >= x-player.getWidth() / 4 && player.getX() <= x+width+player.getWidth() / 2) {
 				if(player.getDY() >= 0)
@@ -51,8 +50,7 @@ public class Physics
 					player.setDY(0);
 					player.setY(y - height - player.getHeight());
 					player.setGround(false);
-					movement();
-					player.setGround(false);
+					MainGame.debugln("Collision detected: " + x + " | " + y);
 				}
 			} 
 		}
@@ -76,6 +74,22 @@ public class Physics
 			}
 		}
 	}
+	
+	public static boolean isDestroyed(int blockType, double x, double y, double width, double height)
+	{
+//		block types:
+//		1: Above head and destroyable from below
+		boolean isDestroyed = false;
+		
+		if(player.getY() + player.getHeight() <= (y - height + (blockSize * .25) )&& player.getY() + player.getHeight() >= y - height &&  player.getX() >= x-player.getWidth() / 4 && player.getX() <= x+width+player.getWidth() / 2)
+		{
+			isDestroyed = true;
+			System.out.println("You have destroyed a block! " + x + " | " + y);
+		}
+		
+		return isDestroyed;
+	}
+	
 //	Controls the movement of the player
 	public static void movement()
 	{			

@@ -105,7 +105,14 @@ public class GUI
 				if(inDevelopment)
 				{
 					buttonAbstract[2].draw(levelName[(int) level]);
-				}	
+				} else {
+					if(sounds)
+					{
+						buttonAbstract[2].draw("Music: ON");
+					} else {
+						buttonAbstract[2].draw("Music: OFF");
+					}
+				}
 				buttonAbstract[3].draw(difficulty[difficultyi]);
 				buttonAbstract[4].draw("Back to Title");
 				

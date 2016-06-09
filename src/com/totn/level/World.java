@@ -21,6 +21,7 @@ public class World extends MainGame
 			player.setY(blockSize * 2.6);
 	        emerald[0].setLocation(Width - blockSize * 2, blockSize * 6);
 			entitiesSetup = true;
+			WorldOneTwo.drawBackground();
 		}
 		if (level == 1)
 		{
@@ -77,19 +78,20 @@ public class World extends MainGame
 		public void draw() 
 		{
 			Physics.detection(true, x,y,width,height);
+	       	
 			y = Height - y;
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			t.bind();
 			glBegin(GL_QUADS);
 			glTexCoord2f(0, 0);
-        	glVertex2d(x, y + height); // Upper-left
-        	glTexCoord2d(width / blockSize, 0);
-        	glVertex2d(x + width, y + height); // Upper-right
-        	glTexCoord2d(width / blockSize, -height/blockSize);
-        	glVertex2d(x + width, y); // Bottom-right
-        	glTexCoord2d(0, -height/blockSize);
-        	glVertex2d(x, y); // Bottom-left
-        	glEnd();
+	       	glVertex2d(x, y + height); // Upper-left
+	       	glTexCoord2d(width / blockSize, 0);
+	        glVertex2d(x + width, y + height); // Upper-right
+	       	glTexCoord2d(width / blockSize, -height/blockSize);
+	       	glVertex2d(x + width, y); // Bottom-right
+	       	glTexCoord2d(0, -height/blockSize);
+	       	glVertex2d(x, y); // Bottom-left
+	       	glEnd();
 		}	
 	}
 	public static class Hill extends AbstractMoveableEntity 

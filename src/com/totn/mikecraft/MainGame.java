@@ -35,9 +35,10 @@ public class MainGame
 	public static String levelName[] = new String[12],charName[] = new String[4],
 			difficulty[] = new String[4];
 	public static int blockSize = Width / 10;
-	public static double level = 1,volume=00;
+	public static double level = 1,volume=0;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
-			inDevelopment=false, fullscreen = false,paused = false;
+			inDevelopment=true, debug=true, fullscreen = false,paused = false,
+			music=false, sounds=false;
 	
 //	Game Entities
 	public static Player player;
@@ -149,18 +150,19 @@ public class MainGame
 			Menus.checkInput();	
 			setTitle();
 			setCamera();
+			MakeSound.RefreshMusic();
 			
-			if(Keyboard.isKeyDown(Keyboard.KEY_R))
-			{
-				if(!resized)
-				{
-					updateDisplay(800,600);
-					resized = true;
-				} else {
-					updateDisplay(640,480);
-					resized = false;
-				}
-			}
+//			if(Keyboard.isKeyDown(Keyboard.KEY_R))
+//			{
+//				if(!resized)
+//				{
+//					updateDisplay(800,600);
+//					resized = true;
+//				} else {
+//					updateDisplay(640,480);
+//					resized = false;
+//				}
+//			}
 			
 //			During game play these run
 			if(state == State.GAME && !paused)
@@ -246,6 +248,11 @@ public class MainGame
 		Physics.createEmeralds();
 		
 		player.defaultSettings();
+	}
+	
+	public static void debugln(String text)
+	{
+		if(debug){System.out.println(text);}
 	}
 	
 	public static void wait(double d)
