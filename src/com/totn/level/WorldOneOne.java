@@ -85,7 +85,6 @@ public class WorldOneOne extends Physics
         ground[4].draw();
         explosive.draw();
         wheat.draw();
-//        Test
         for(int bridgeToDraw=0;bridgeToDraw<=8;bridgeToDraw++)
         {
         	if(!Keyboard.isKeyDown(2 + bridgeToDraw))
