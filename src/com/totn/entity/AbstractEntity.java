@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
 import com.totn.entity.Entity;
-import com.totn.mikecraft.MainGame;
 
 public abstract class AbstractEntity implements Entity {
 

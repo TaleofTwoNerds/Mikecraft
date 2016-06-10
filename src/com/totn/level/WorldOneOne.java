@@ -25,8 +25,6 @@ public class WorldOneOne extends Physics
 		render();
 	}
 	
-//	Test CRON II
-	
 	public static void drawBackground() 
 	{	
 		enemy.setBounds(Width * 4 / 2, Width * 7 / 2);
@@ -50,9 +48,9 @@ public class WorldOneOne extends Physics
 		bridge[1] = new World.Block(Planks_oak, Width + blockSize * 8, blockSize * 5, blockSize, blockSize * 4);
 		bridge[2] = new World.Block(Planks_oak, Width + blockSize * 9, blockSize * 2, blockSize, blockSize * 4);
 		bridge[3] = new World.Block(Planks_oak, Width * 2 + blockSize * 4, blockSize * 6, blockSize, blockSize * 4);
-		bridge[5] = new World.Block(Planks_oak, Width * 3 + blockSize, blockSize * 6, blockSize, blockSize * 3);
+		bridge[6] = new World.Block(Planks_oak, Width * 3 + blockSize, blockSize * 6, blockSize, blockSize * 3);
 		bridge[4] = new World.Block(Planks_oak, Width * 3 + blockSize * 7, blockSize * 7, blockSize, Width / 2);
-		bridge[6] = new World.Block(Planks_oak, Width * 3 + blockSize * 8, blockSize * 5, blockSize, blockSize * 4);
+		bridge[5] = new World.Block(Planks_oak, Width * 3 + blockSize * 8, blockSize * 5, blockSize, blockSize * 4);
 		bridge[7] = new World.Block(Planks_oak, Width * 4, blockSize * 6, blockSize, blockSize * 2);
 		bridge[8] = new World.Block(Planks_oak, Width * 4 + blockSize * 2, blockSize * 6, blockSize, blockSize * 3);
 

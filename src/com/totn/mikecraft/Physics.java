@@ -28,7 +28,6 @@ public class Physics
 	public static void detection(boolean bottom, double x, double y, double width, double height)
 	{
 		double yBottom = y - blockSize * .25;
-		double yTop = y + blockSize * .25;
 		if(!dead)
 		{
 			if(player.getY() <= y && player.getY() >= yBottom && player.getX() >= x-player.getWidth() / 4 && player.getX() <= x+width+player.getWidth() / 2)

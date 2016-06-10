@@ -10,7 +10,6 @@ import com.totn.mikecraft.*;
 public class WorldOneTwo extends Physics
 {
 	public static boolean spawnEmerald = false;
-	private static boolean setupLevel = false;
 	public static float decell = (float) 0.8;
 	public static World.Block back, 
 			bridge[] = new World.Block[4], stone[] = new World.Block[4];
