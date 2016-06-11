@@ -43,7 +43,7 @@ public class WorldOneOne extends Physics
 		hill[3] = new World.Hill(Grass, Width - blockSize * 2, blockSize * 5, blockSize, blockSize * 4);
 		
 		dirt[1] = new World.Back(Dirt, Width - blockSize * 2, blockSize * 4, blockSize * 3, blockSize * 5);
-//		log test 2
+//		log test 4
 		bridge[0] = new World.Block(Planks_oak, Width + blockSize * 5, blockSize * 4, blockSize, blockSize * 2);
 		bridge[1] = new World.Block(Planks_oak, Width + blockSize * 8, blockSize * 5, blockSize, blockSize * 4);
 		bridge[2] = new World.Block(Planks_oak, Width + blockSize * 9, blockSize * 2, blockSize, blockSize * 4);
