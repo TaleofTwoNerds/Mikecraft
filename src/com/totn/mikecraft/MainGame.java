@@ -149,18 +149,6 @@ public class MainGame
 			setCamera();
 			MakeSound.RefreshMusic();
 			
-//			if(Keyboard.isKeyDown(Keyboard.KEY_R))
-//			{
-//				if(!resized)
-//				{
-//					updateDisplay(800,600);
-//					resized = true;
-//				} else {
-//					updateDisplay(640,480);
-//					resized = false;
-//				}
-//			}
-			
 //			During game play these run
 			if(state == State.GAME && !paused)
 			{
