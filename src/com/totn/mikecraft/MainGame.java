@@ -36,7 +36,7 @@ public class MainGame
 	public static int blockSize = Width / 10;
 	public static double level = 1,volume=0;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
-			inDevelopment=true, debug=true, fullscreen = false,paused = false,
+			inDevelopment=false, debug=true, fullscreen = false,paused = false,
 			music=false, sounds=false;
 	
 //	Game Entities
