@@ -4,8 +4,6 @@ import java.awt.Rectangle;
 
 import org.newdawn.slick.opengl.Texture;
 
-import com.totn.entity.Entity;
-
 public abstract class AbstractEntity implements Entity {
 
 	protected double x, y, height, width;

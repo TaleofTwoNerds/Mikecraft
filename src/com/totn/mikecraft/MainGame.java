@@ -34,7 +34,7 @@ public class MainGame
 	public static double level = 1,volume=-5;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
 			inDevelopment=false, debug=true, fullscreen = false,paused = false,
-			music=false, sounds=false;
+			music=true, sounds=true;
 	
 //	Game Entities
 	public static Player player;
