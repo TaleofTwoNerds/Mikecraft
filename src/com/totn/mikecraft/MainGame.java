@@ -5,11 +5,9 @@ import static org.lwjgl.opengl.GL11.*;
 import java.awt.Font;
 import java.io.InputStream;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.*;
+import org.lwjgl.input.*;
+import org.lwjgl.opengl.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
@@ -25,16 +23,15 @@ import com.totn.level.World;
 public class MainGame 
 {	
 //	Game Information
-	public static final String ver = "PRE 1.3.1 LB",title="Mikecraft";
+	public static final String ver = "PRE 1.4 2023 Rebuild",title="Mikecraft";
 	public static final String themeSong = "dovakiin.wav",levelSong = "clock_town.wav";
 	
 	public static int Height = 480,Width = 640,Char = 1,lives = 3,difficultyi = 3,optionMenu = 1;
 	public static int displayHeight, displayWidth;
-//	Cannot even remember why I needed nHeight.
 	public static String levelName[] = new String[12],charName[] = new String[4],
 			difficulty[] = new String[4];
 	public static int blockSize = Width / 10;
-	public static double level = 1,volume=0;
+	public static double level = 1,volume=-5;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
 			inDevelopment=false, debug=true, fullscreen = false,paused = false,
 			music=false, sounds=false;

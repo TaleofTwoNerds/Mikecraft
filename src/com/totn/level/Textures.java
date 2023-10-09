@@ -42,12 +42,12 @@ public class Textures extends MainGame
 
 		//menus
 		Title = textureLoader("PNG","res/images/Mikecraft.png");
-		Button[1] = textureLoader("PNG","res/images/button.png");
 		button = textureLoader("PNG","res/images/button.png");
 		buttonHover = textureLoader("PNG","res/images/buttonHover.png");
-		Button[2] = Button[1];
-		Button[3] = Button[2];
-		Button[4] = Button[3];
+		Button[1] = button;
+		Button[2] = button;
+		Button[3] = button;
+		Button[4] = button;
 		TitleBack = textureLoader("PNG","res/images/well.png");
 		TitleBackSwap = textureLoader("PNG","res/images/estate3.png");
 		TitleBackOption = textureLoader("PNG","res/images/danealue.png");

@@ -61,17 +61,14 @@ public class Button extends AbstractEntity
 	
 	public boolean isHovering()
 	{
-		if(Mouse.getX() >= x - width / 2
-			&& Mouse.getX() <= x + width / 2
-			&& Mouse.getY() >= y
-			&& Mouse.getY() <= y + height)
+		if(Mouse.getX() <= x - width / 2
+			|| Mouse.getX() >= x + width / 2
+			|| Mouse.getY() <= y
+			|| Mouse.getY() >= y + height)
 		{
-			hovering = true;
-			return hovering;
-		} else {
-			hovering = false;
-			return hovering;
+			return false;
 		}
+		return true;
 	}
 	
 	public String getText()

@@ -147,11 +147,6 @@ public class Physics
 			}
 			player.jump(true);
 			
-			if(player.getY() <= 0 && dead)
-			{
-				wasDead = true;
-			}
-			
 			if(wasDead)
 			{
 				if (MainGame.lives >= 1)
@@ -178,6 +173,7 @@ public class Physics
 					enemy.setDX(enemy.getSpeed());
 				}
 			}
+			wasDead = true;
 		}
 			
 		if (enemy.getY() <= bottom)
