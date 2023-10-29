@@ -191,6 +191,8 @@ public class MainGame
         System.exit(1);
 	}
 
+//	General method for active game loop
+//	Only runs if the game is in GAME state
 	static void inGame()
 	{
 //		World.chooseLevel should load world level class from JSON object.
@@ -205,6 +207,8 @@ public class MainGame
 //		Draw the player sprite
 		player.draw();
 	}
+	
+//	Set the title of the screen
 	static void setTitle()
 	{   
 //		Find the player's position
