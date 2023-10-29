@@ -53,7 +53,7 @@ public class WorldOneOne extends Physics
 		bridge[5] = new World.Block(Planks_oak, Width * 3 + blockSize * 8, blockSize * 4, blockSize, blockSize * 4);
 
 		//title
-		if (state == State.MAIN_MENU){
+		if (state == GameCurrentState.MAIN_MENU){
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			Title.bind();
 			glBegin(GL_QUADS);

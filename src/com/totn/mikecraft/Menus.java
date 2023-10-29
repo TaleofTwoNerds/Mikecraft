@@ -68,7 +68,7 @@ public class Menus extends MainGame
 						released[0] = false;
 						MakeSound.menuOption.play();
 						optionMenu = 0;
-						state = State.MAIN_MENU;
+						state = GameCurrentState.MAIN_MENU;
 					} else if(!Mouse.isButtonDown(0)) {
 						released[0] = true;
 					}
@@ -102,7 +102,7 @@ public class Menus extends MainGame
 					{
 						released[0] = false;
 						MakeSound.menuOption.play();
-						state = State.MAIN_MENU;
+						state = GameCurrentState.MAIN_MENU;
 						GUI.drawBackground();
 					} else if(!Mouse.isButtonDown(0)) {
 						released[0] = true;
@@ -118,7 +118,7 @@ public class Menus extends MainGame
 					released[0] = false;
 					MakeSound.menuOption.play();
 					MakeSound.theme.stop();
-					state = State.STAGE_SWAP;
+					state = GameCurrentState.STAGE_SWAP;
 					enemy.setVisable(true);
 					enemy.setY(blockSize * 2);
 					if(level==1){lives = difficultyi;}
@@ -133,7 +133,7 @@ public class Menus extends MainGame
 				{
 					released[0] = false;
 					MakeSound.menuOption.play();
-					state = State.OPTIONS;
+					state = GameCurrentState.OPTIONS;
 					optionMenu = 0;
 					GUI.drawBackground();
 				} else if(!Mouse.isButtonDown(0)){
@@ -163,11 +163,11 @@ public class Menus extends MainGame
         		if (level == 0)
         		{
         			level = 1;
-        			state = State.MAIN_MENU;
+        			state = GameCurrentState.MAIN_MENU;
         		} else
         		{
         			MakeSound.clockTown.play();
-        			state = State.GAME;
+        			state = GameCurrentState.GAME;
         			if(MakeSound.courseClear.isPlaying())
         			{
         				MakeSound.courseClear.stop();
@@ -187,7 +187,7 @@ public class Menus extends MainGame
     				MakeSound.clockTown.stop();
     			}
     			 
-				state = State.MAIN_MENU;
+				state = GameCurrentState.MAIN_MENU;
 				GUI.drawBackground();
 			}
 		default:

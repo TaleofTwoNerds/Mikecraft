@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.newdawn.slick.opengl.Texture;
 
-import com.totn.mikecraft.MainGame.State;
+import com.totn.mikecraft.MainGame.GameCurrentState;
 
 public class GUI 
 {
@@ -95,7 +95,7 @@ public class GUI
 		
 //		OPTIONS MENU
 		
-		if(state == State.OPTIONS)
+		if(state == GameCurrentState.OPTIONS)
 		{		
 			centerObject(TitleBackOption, Width - blockSize, -Height / 2, 768, 1366);
 			backObject(Title , Width / 2 - 225, Height / 2 + 100, 100, 800);
@@ -127,7 +127,7 @@ public class GUI
 		
 //		STAGE SWAP MENU
 		
-		if(state == State.STAGE_SWAP)
+		if(state == GameCurrentState.STAGE_SWAP)
 		{
 	        centerObject(TitleBackSwap, Width - blockSize, -Height / 2, 768, 1366);
 			backObject(Title, Width / 2 - 225, Height / 2 + 100, 100, 800);
@@ -148,7 +148,7 @@ public class GUI
 //		MAIN MENU
 		
 		
-		if(state == State.MAIN_MENU)
+		if(state == GameCurrentState.MAIN_MENU)
 		{
 	        centerObject(TitleBack, Width - blockSize, -Height / 2, 768, 1366);
 			backObject(Title, Width / 2 - 225, Height / 2 + 100, 100, 800);

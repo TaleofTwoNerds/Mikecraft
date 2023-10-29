@@ -9,6 +9,8 @@ public class MakeSound extends MainGame
 	
 	public static void initSounds()
 	{
+//		Some sounds should be loaded globally. These can be here
+//		level based sounds should be loaded by the world class
 		theme = new Sound(0, "theme", "dovakiin.wav");
 		jump = new Sound(1, "jump", "jump.wav");
 		menuOption = new Sound(2, "menuOption", "menu_option.wav");
@@ -22,6 +24,7 @@ public class MakeSound extends MainGame
 	
 	public static void clearSounds()
 	{
+//		Sounds should have an array of all currently playing sounds to stop
 		theme.stop();
 		jump.stop();
 		menuOption.stop();

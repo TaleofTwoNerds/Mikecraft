@@ -23,7 +23,7 @@ import com.totn.level.World;
 public class MainGame 
 {	
 //	Game Information
-	public static final String ver = "PRE 1.4 2023 Rebuild",title="Mikecraft";
+	public static final String ver = "PRE 1.5 2023 Rebuild",title="Mikecraft";
 	public static final String themeSong = "dovakiin.wav",levelSong = "clock_town.wav";
 	
 	public static int Height = 480,Width = 640,Char = 1,lives = 3,difficultyi = 3,optionMenu = 1;
@@ -49,16 +49,19 @@ public class MainGame
 	public static Texture SteveChar,MikeChar,MineChar,PlayerSkin,Steve2;
 	public static Texture Title,TitleBack,TitleBackOption,TitleBackSwap,Button[] = new Texture[5],button,buttonHover;
 
-    public static enum State 
+//	State for game status
+    public static enum GameCurrentState 
     {
-        MAIN_MENU, GAME, STAGE_SWAP, OPTIONS
+        MAIN_MENU, GAME, STAGE_SWAP, OPTIONS, PAUSE
     }
-    public static State state = State.MAIN_MENU;
+    public static GameCurrentState state = GameCurrentState.MAIN_MENU;
     
+//	Setup the display
 	public static void setUpDisplay(int Width, int Height)
 	{
     	try 
     	{
+//			Initialize variables and run display functions
     		displayHeight = Height;
     		displayWidth = Width;
             Display.setDisplayMode(new DisplayMode(displayWidth, displayHeight));
@@ -68,29 +71,40 @@ public class MainGame
             System.out.println(Sys.getVersion());
     	} catch (LWJGLException e)
         {
+//			Error checking for display generation
             e.printStackTrace();
             Display.destroy();
         }
     }
 	
+//	Update the display every tick
 	public static void updateDisplay(int newWidth, int newHeight)
 	{
+//		Destroy the current display and build the new display.
 		Display.destroy();
         setUpDisplay(newWidth,newHeight);
 		fontInit(24);
-        Textures.t();
         setCamera();
+
+//		Reload textures. Later this should be moved to the level world class and run during world load every cycle.
+        Textures.t();
 	}
 
+	
+//
+//	Consider moving the font setup and loading into its own Class file
+//		public class FontHandler
+	
 //	Initialize the fonts
 	public static void fontInit(int size)
 	{
-		// load a default java font
+//		Load a default java font
 		Font awtFont = new Font("Arial", Font.BOLD, size);
 		font = new TrueTypeFont(awtFont, false);
 		
 		try 
 		{
+//			Try loading the fonts
 			InputStream inputStream	= ResourceLoader.getResourceAsStream("res/font/Minecraftia.ttf");
 			InputStream inputStream2	= ResourceLoader.getResourceAsStream("res/font/Minecraftia.ttf");
 
@@ -107,53 +121,66 @@ public class MainGame
 		}	
 	}
 	
+//	Draw text around a specific y coord, centered on the screen
 	public static void fontCenter(TrueTypeFont font, float y, String text)
 	{		
 		fontDrawString(font, Width / 2 - font.getWidth(text) / 2, y, text);
 	}
 	
+//	Draw text at specific x and y coord
 	public static void fontDrawString(TrueTypeFont font, float x, float y, String text)
 	{
 		font.drawString(x + 3, y + 3, text, Color.darkGray);
 		font.drawString(x, y, text, Color.white);
 	}
 	
+//	Main
 	public static void main(String args[]) throws Exception 
 	{
 //		Sets up the display if it's not already set
 		if(!display){setUpDisplay(Width, Height); display = true;}
 
 //		Initialize all the textures to be used later in the game
+//		This should be moved to the world files.
+//		Each world should load its own textures, either from base textures or custom.
+//		This is an engine. Move things where they need to be and not globally.
 		Textures.t();
 		
+//		Load the entities, another method that should be moved to future World class under buildEntities method
+//			Entities should be loaded from JSON loaded class
 		setEntities();
 		setCamera();
         GUI.centerObject(TitleBackOption, Width - blockSize, -Height / 2, 768, 1366);
 		
 //		Theme song
 		MakeSound.initSounds();
+//		There should be more state logic behind this. If the state changes to MAIN_MENU, play music
 		MakeSound.theme.play();
 		
 //		Initializes the fonts
 		fontInit(24);
 		
+//		While the display is kept open loop and update display each tick
 		while(!Display.isCloseRequested())
 		{
-//			System.out.println(MakeSound.themeSound.isPlaying + " | " + MakeSound.levelSound.isPlaying);
 //			Check whether stages need to be changed or not
 			Menus.checkInput();	
+
+//			Move these to class methods like Display.setTitle() or setUpDsiplay.setCamera()
 			setTitle();
 			setCamera();
 			MakeSound.RefreshMusic();
 			
 //			During game play these run
-			if(state == State.GAME && !paused)
+			if(state == GameCurrentState.GAME && !paused)
 			{
+//				Update to a class method inGame.draw()
 				inGame();
 			}
 //			Otherwise the GUI needs to load
 			else
 			{
+//				Update later to GUI.draw();
 				GUI.drawBackground();
 			}
 //			Update and Sync
@@ -166,11 +193,16 @@ public class MainGame
 
 	static void inGame()
 	{
+//		World.chooseLevel should load world level class from JSON object.
 		World.chooseLevel();
+		
+//		Load/draw enemies from the world level JSON object
 		if(enemy.isVisable())
 		{
 			enemy.draw();
 		}
+		
+//		Draw the player sprite
 		player.draw();
 	}
 	static void setTitle()
@@ -180,8 +212,10 @@ public class MainGame
 		int disXDec = (int) Math.ceil((player.getX() / blockSize) + 9 - disX * 10);
 		int disY = (int) player.getY() / blockSize;
 		String mousePosition = "Mouse X: " + Mouse.getX() + " | Mouse Y: " + Mouse.getY();
+		
 //		Game Title
 		if(!inDevelopment){Display.setTitle(title + " " + ver + " | " + Physics.score + " | " + lives);}
+		
 //		Dev Title
 		else {Display.setTitle(title + " DEV "+ver+" | " + level + " | " + (disX - 1) + "." + disXDec + " , "+ disY + " | Score: " + Physics.score + " | Lives: " + lives + " | " + mousePosition);}
 	}
@@ -192,17 +226,20 @@ public class MainGame
 	
 	static void setCamera() 
 	{
-		//clear screen
+//		Clear screen
 		glClear(GL_COLOR_BUFFER_BIT);
-		//modify projection matrix
+		
+//		Modify projection matrix
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, Width, Height, 0, 1, -1);
         
-        //modify model view matrix
+//		Modify model view matrix
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         
+//		Jump 'n run camera movement
+//			If the player moves beyond 50% of the page, advance the side scroll
 		if (player.getX() >= Width / 2)
         {
         	if (player.getY() >= Height / 2) 
@@ -216,6 +253,8 @@ public class MainGame
         glEnable(GL_TEXTURE_2D);
 	}
 	
+//	Setup entities for the world
+//		Should be moved to World class under World.buildEntities and loaded from level JSON
 	static void setEntities()
 	{
 //		Creates the new entities
@@ -232,11 +271,13 @@ public class MainGame
 		player.defaultSettings();
 	}
 	
+//	Method for printing debug variables to console
 	public static void debugln(String text)
 	{
 		if(debug){System.out.println(text);}
 	}
 	
+//	Wait
 	public static void wait(double d)
 	{
 		try {

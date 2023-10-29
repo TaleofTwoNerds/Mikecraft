@@ -9,6 +9,12 @@ import com.totn.entity.AbstractMoveableEntity;
 import com.totn.mikecraft.Physics;
 import com.totn.mikecraft.MainGame;
 
+/*
+ * 	This needs to be overhauled completely
+ * 	The levels should be JSON objects that are built by a Level class with a Level.load(...) method
+ * 	Current level can be stored in a Global object
+ */
+
 public class World extends MainGame 
 {
 	private static boolean entitiesSetup = false;

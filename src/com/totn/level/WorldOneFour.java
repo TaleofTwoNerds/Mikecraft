@@ -5,7 +5,7 @@ import static com.totn.mikecraft.MainGame.*;
 import com.totn.audio.MakeSound;
 import com.totn.mikecraft.MainGame;
 import com.totn.mikecraft.Physics;
-import com.totn.mikecraft.MainGame.State;
+import com.totn.mikecraft.MainGame.GameCurrentState;
 
 public class WorldOneFour extends Physics 
 {
@@ -57,7 +57,7 @@ public class WorldOneFour extends Physics
 			MakeSound.clockTown.stop();
 			MakeSound.courseClear.play();
 
-			state = State.STAGE_SWAP;
+			state = GameCurrentState.STAGE_SWAP;
 			Physics.emeraldOne = true;
 			Physics.emeraldTwo = true;
 			Physics.emeraldThree = true;

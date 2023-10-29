@@ -4,7 +4,7 @@ import static com.totn.mikecraft.MainGame.*;
 
 import com.totn.audio.MakeSound;
 import com.totn.mikecraft.Physics;
-import com.totn.mikecraft.MainGame.State;
+import com.totn.mikecraft.MainGame.GameCurrentState;
 
 public class WorldOneThree extends Physics 
 {
@@ -76,7 +76,7 @@ public class WorldOneThree extends Physics
 			MakeSound.clockTown.stop();
 			MakeSound.courseClear.play();
 
-			state = State.STAGE_SWAP;
+			state = GameCurrentState.STAGE_SWAP;
 			
 			player.setLocation(100, blockSize * 2);
 			player.setDX(0);

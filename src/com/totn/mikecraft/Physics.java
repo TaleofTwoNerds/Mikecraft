@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.totn.audio.MakeSound;
 import com.totn.entity.Token;
-import com.totn.mikecraft.MainGame.State;
+import com.totn.mikecraft.MainGame.GameCurrentState;
 
 public class Physics 
 {
@@ -162,7 +162,7 @@ public class Physics
 					score = 0;
 				}
 			//	Reset the level
-				state = State.STAGE_SWAP;
+				state = GameCurrentState.STAGE_SWAP;
 				player.setX(100);
 				player.setY(blockSize * 2);
 				dead = false;
@@ -199,7 +199,7 @@ public class Physics
 	public static void logic()
 	{
 		if (player.getY() >= 0){
-			if (state == State.GAME)
+			if (state == GameCurrentState.GAME)
 			{
 				player.setX(player.getX()+player.getDX());
 				player.setY(player.getY()+player.getDY());
@@ -215,7 +215,7 @@ public class Physics
 		}
 		
 		if (enemy.getY() >= 0){
-			if (state == State.GAME)
+			if (state == GameCurrentState.GAME)
 			{
 				enemy.setX(enemy.getX() + enemy.getDX());
 				enemy.setY(enemy.getY() + enemy.getDY());

@@ -108,7 +108,7 @@ public class WorldOneTwo extends Physics
 			MakeSound.clockTown.stop();
 			MakeSound.courseClear.play();
 
-			state = State.STAGE_SWAP;
+			state = GameCurrentState.STAGE_SWAP;
 			player.setX(100);
 			player.setY(blockSize * 2);
 			player.setDX(0);
