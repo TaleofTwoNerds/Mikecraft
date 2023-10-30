@@ -8,6 +8,18 @@ import org.newdawn.slick.opengl.Texture;
 
 import com.totn.mikecraft.MainGame;
 
+/*	Buttons can be modified to include more class extensions
+		As well as broadened to general GUI elements
+		This class should be about handling user input, not just buttons
+		Then each type button, slider, textbox, etc... can be an extension
+	
+	From here, GUI will be able to generate UI pages by pushing elements to a
+		General UI array before being displayed / tested for input each tick
+		
+	GUI is based on STATE, so it could have a separate array for each STATE?
+		Then switching between menus would be switching which array is active
+*/
+
 public class Button extends AbstractEntity 
 {
 	protected boolean hovering;

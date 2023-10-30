@@ -8,6 +8,25 @@ import com.totn.audio.MakeSound;
 import com.totn.entity.Token;
 import com.totn.mikecraft.MainGame.GameCurrentState;
 
+/*	Physics is in need of abstraction
+		Physics should be dealing with abstract objects
+		And then performing actions more generally.
+		Acting on specific named variables limits the engines scalability
+		and is just bad
+		
+	Similar to Textures, use arrays to hold level objects created by World.buildLevel
+		Then, each cycle run through the array performing necessary logic
+			You can filter what activities need to happen based on prox to player etc...
+	
+	Handling emeralds can be done this way as well. Each level, when created, 
+		can push to the emerald stack. When a player collects one, it's removed 
+		from the array
+		
+	Enemies as well. As enemies are defeated they can be deleted from the 
+		enemy array and removed from memory. Each level launch will repopulated this array
+		This will resolved the enemies not reloading on a finished game
+*/
+
 public class Physics 
 {
 	public static double decell = (double) blockSize / 70; 

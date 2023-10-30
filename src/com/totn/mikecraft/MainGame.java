@@ -1,10 +1,11 @@
 package com.totn.mikecraft;
 
-import static org.lwjgl.opengl.GL11.*;
-
+//	Font Generation and File IO
 import java.awt.Font;
 import java.io.InputStream;
 
+//	LWJGL 2.9 for Display (3 wasn't available at the time... port TBD)
+import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.*;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
@@ -13,6 +14,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
 
+//	Custom Mikecraft Packages
 import com.totn.audio.MakeSound;
 import com.totn.entity.Enemy;
 import com.totn.entity.Player;
@@ -20,21 +22,61 @@ import com.totn.entity.Button;
 import com.totn.level.Textures;
 import com.totn.level.World;
 
+/*	Mikecraft
+	by Blaine Harper
+	
+	Mikecraft was a passion project of mine back in 2015 when I was
+	initially studying Java programming in high school.
+	
+	My mentor, Gavin, showed us the ways of LWJGL hoping one of 
+	us would be the next Markus Persson... It did not work.
+	
+	In the meantime, I developed this project as an attempt at 
+	making a workable 2-D Jump 'n' Run style platformer game using 
+	textures that paid homage to Minecraft's creator and the library 
+	that made it possible.
+	
+	It's come a long way since the first steps back in 2015, and its 
+	still only a short way from it's front step... buut it's been a 
+	great way to dive head first into Java programming and game development.
+	
+	I've learned so much throughout its development and plan to learn 
+	as it progresses further. I don't know where this project will lead - 
+	be it LWJGL 3, a JavaScript rebuild, or the scrapyard so I can focus on 
+	other projects... only time can tell.
+	
+	If you've stumbled upon this project and find any or all of it interesting, 
+	feel free to reach out to me: blaine@blaineharper.com
+	
+	- Blaine
+*/
+
 public class MainGame 
 {	
 //	Game Information
-	public static final String ver = "PRE 1.5 2023 Rebuild",title="Mikecraft";
-	public static final String themeSong = "dovakiin.wav",levelSong = "clock_town.wav";
-	
-	public static int Height = 480,Width = 640,Char = 1,lives = 3,difficultyi = 3,optionMenu = 1;
-	public static int displayHeight, displayWidth;
-	public static String levelName[] = new String[12],charName[] = new String[4],
-			difficulty[] = new String[4];
-	public static int blockSize = Width / 10;
+	public static final String ver = "PRE 1.5 2023 Rebuild",
+								title="Mikecraft";
+	public static final String themeSong = "dovakiin.wav",
+								levelSong = "clock_town.wav";
+								
+//	Display
+	public static int Height = 480, Width = 640,
+		displayHeight, displayWidth,
+//		Player Skin ?? / Option Settings
+		Char = 1,lives = 3,
+		difficultyi = 3,optionMenu = 1,
+		blockSize = Width / 10;
 	public static double level = 1,volume=-5;
 	public static boolean display = false,gameOver=false,released[] = new boolean[10],
 			inDevelopment=false, debug=true, fullscreen = false,paused = false,
 			music=true, sounds=true;
+			
+//		Level Generation
+//		At the risk of sounding redundant, 
+//			This should be moved to the World.buildLevel method
+//		Difficulty should be an enum STATE
+	public static String levelName[] = new String[12],charName[] = new String[4],
+			difficulty[] = new String[4];
 	
 //	Game Entities
 	public static Player player;
@@ -89,7 +131,6 @@ public class MainGame
 //		Reload textures. Later this should be moved to the level world class and run during world load every cycle.
         Textures.t();
 	}
-
 	
 //
 //	Consider moving the font setup and loading into its own Class file

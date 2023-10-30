@@ -9,6 +9,10 @@ import com.totn.audio.MakeSound;
 import com.totn.mikecraft.MainGame;
 import com.totn.mikecraft.Physics;
 
+/*	All of these world files can be abstracted into a general World.buildLevel class
+		More details have been left on the headers of MainGame, World, Physics, and Textures
+*/
+
 public class WorldOneOne extends Physics
 {
 	public static float decell = (float) 0.8;

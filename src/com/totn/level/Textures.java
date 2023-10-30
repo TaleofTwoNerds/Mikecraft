@@ -9,6 +9,18 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import com.totn.mikecraft.MainGame;
 
+/*	Instead of loading every texture at launch, load them for each level
+		Level designers can use any textures in the res folder and have 
+		them created by the level constructor
+	
+	Textures that already exists won't have to be reloaded, but next ones
+		can be pushed and old ones popped from the active textures array
+		
+	Create and active textures array to hold all currently active textures
+		When the world is constructed it will generate from this array
+		Then each cycle can run through this array running logic for each texture
+*/
+
 public class Textures extends MainGame
 {	
 	public static void t()
